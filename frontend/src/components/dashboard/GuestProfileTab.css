@@ -1,0 +1,282 @@
+/* Guest Profile — Modern UI */
+.guest-profile-tab {
+  --gp-gold: #d4af37;
+  --gp-gold-light: #f4e5c3;
+  --gp-dark: #1a1a1a;
+  --gp-dark-soft: #2d2d2d;
+  --gp-muted: #6c757d;
+  --gp-bg: #f8f9fa;
+  --gp-card: #ffffff;
+  --gp-radius: 16px;
+  --gp-radius-sm: 12px;
+  --gp-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --gp-shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.guest-profile-tab .tab-loading {
+  min-height: 320px;
+}
+
+/* Hero card */
+.guest-profile-hero {
+  background: linear-gradient(135deg, var(--gp-dark) 0%, var(--gp-dark-soft) 100%);
+  border-radius: var(--gp-radius);
+  padding: 2.5rem 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--gp-shadow);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.guest-profile-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gp-gold), var(--gp-gold-light), var(--gp-gold));
+  opacity: 0.9;
+}
+
+.guest-profile-hero-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+}
+
+.guest-profile-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gp-gold) 0%, var(--gp-gold-light) 100%);
+  color: var(--gp-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
+}
+
+.guest-profile-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.guest-profile-hero-text h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.35rem 0;
+  letter-spacing: -0.02em;
+}
+
+.guest-profile-hero-text p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* Section blocks */
+.guest-profile-section {
+  margin-bottom: 2rem;
+}
+
+.guest-profile-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.guest-profile-section-title .icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--gp-radius-sm);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(244, 229, 195, 0.12) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gp-gold);
+}
+
+.guest-profile-section-title h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gp-dark);
+  margin: 0;
+}
+
+/* Personal details card */
+.guest-profile-card {
+  background: var(--gp-card);
+  border-radius: var(--gp-radius);
+  padding: 1.5rem 1.75rem;
+  box-shadow: var(--gp-shadow);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.guest-profile-card:hover {
+  box-shadow: var(--gp-shadow-hover);
+}
+
+.guest-profile-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+
+.guest-profile-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--gp-bg);
+  border-radius: var(--gp-radius-sm);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.guest-profile-detail-item .icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(244, 229, 195, 0.15) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gp-gold);
+  flex-shrink: 0;
+}
+
+.guest-profile-detail-item .label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gp-muted);
+  font-weight: 600;
+  margin: 0 0 0.35rem 0;
+}
+
+.guest-profile-detail-item .value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gp-dark);
+  margin: 0;
+  word-break: break-word;
+}
+
+/* Stats / ride snapshot */
+.guest-profile-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.guest-profile-stat-card {
+  background: var(--gp-card);
+  border-radius: var(--gp-radius);
+  padding: 1.35rem 1.5rem;
+  box-shadow: var(--gp-shadow);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  text-align: center;
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.guest-profile-stat-card:hover {
+  box-shadow: var(--gp-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.guest-profile-stat-card .stat-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 0.85rem;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gp-gold);
+}
+
+.guest-profile-stat-card.stat-rides .stat-icon {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(244, 229, 195, 0.12) 100%);
+}
+
+.guest-profile-stat-card.stat-upcoming .stat-icon {
+  background: linear-gradient(135deg, rgba(40, 167, 69, 0.12) 0%, rgba(72, 187, 120, 0.12) 100%);
+  color: #28a745;
+}
+
+.guest-profile-stat-card.stat-wallet .stat-icon {
+  background: linear-gradient(135deg, rgba(23, 162, 184, 0.12) 0%, rgba(72, 207, 219, 0.12) 100%);
+  color: #17a2b8;
+}
+
+.guest-profile-stat-card .stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--gp-dark);
+  margin: 0 0 0.25rem 0;
+  line-height: 1.2;
+}
+
+.guest-profile-stat-card .stat-label {
+  font-size: 0.8rem;
+  color: var(--gp-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+/* Footer meta */
+.guest-profile-meta {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--gp-muted);
+}
+
+.guest-profile-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .guest-profile-hero {
+    padding: 1.75rem 1.25rem;
+  }
+  .guest-profile-hero-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .guest-profile-avatar {
+    width: 72px;
+    height: 72px;
+    font-size: 1.4rem;
+  }
+  .guest-profile-details-grid {
+    grid-template-columns: 1fr;
+  }
+  .guest-profile-stats {
+    grid-template-columns: 1fr;
+  }
+}

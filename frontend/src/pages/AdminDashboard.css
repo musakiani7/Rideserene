@@ -1,0 +1,398 @@
+.admin-dashboard {
+  display: flex;
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+}
+
+.admin-sidebar-header {
+  padding: 2rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.admin-sidebar-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #d4af37;
+  margin-bottom: 0.25rem;
+}
+
+.admin-sidebar-header p {
+  font-size: 0.85rem;
+  color: #c0c0c0;
+}
+
+.admin-info {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.admin-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d4af37 0%, #f4e5c3 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1a1a1a;
+}
+
+.admin-details h3 {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  color: white;
+}
+
+.admin-role {
+  font-size: 0.75rem;
+  color: #d4af37;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.admin-nav {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+.admin-nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: none;
+  border: none;
+  color: #c0c0c0;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.admin-nav-item:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: #d4af37;
+}
+
+.admin-nav-item.active {
+  background: rgba(212, 175, 55, 0.15);
+  color: #d4af37;
+  border-left-color: #d4af37;
+}
+
+.admin-logout-btn {
+  margin: 1rem 1.5rem;
+  padding: 0.875rem 1rem;
+  background: rgba(192, 192, 192, 0.1);
+  border: 1px solid rgba(192, 192, 192, 0.3);
+  border-radius: 8px;
+  color: #c0c0c0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-logout-btn:hover {
+  background: rgba(192, 192, 192, 0.2);
+  color: white;
+}
+
+/* Main Content */
+.admin-main {
+  flex: 1;
+  margin-left: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-header {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.admin-header h1 {
+  font-size: 1.75rem;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.mobile-overlay {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .admin-main {
+    margin-left: 0;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .mobile-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  .admin-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .admin-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .admin-content {
+    padding: 1rem;
+  }
+
+  .admin-sidebar {
+    width: 280px;
+  }
+
+  .admin-sidebar-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .admin-nav-item {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-header {
+    padding: 1rem;
+  }
+
+  .admin-header h1 {
+    font-size: 1.15rem;
+  }
+
+  .admin-content {
+    padding: 0.75rem;
+  }
+
+  .admin-sidebar {
+    width: 260px;
+  }
+
+  .admin-sidebar-header {
+    padding: 1.5rem 1rem 0.75rem;
+  }
+
+  .admin-sidebar-header h2 {
+    font-size: 1.15rem;
+  }
+
+  .admin-info {
+    padding: 1rem;
+  }
+
+  .admin-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .admin-details h3 {
+    font-size: 0.9rem;
+  }
+
+  .admin-role {
+    font-size: 0.7rem;
+  }
+
+  .admin-nav-item {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .admin-logout-btn {
+    margin: 0.75rem 1rem;
+    padding: 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Additional Responsive Styles for Admin Dashboard */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .admin-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  
+  .admin-content {
+    padding: 1rem 0.75rem !important;
+  }
+  
+  /* Make tables responsive */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    /* -webkit-overflow-scrolling: touch; Deprecated - removed for browser compatibility */
+  }
+  
+  /* Stack cards vertically */
+  .stats-card {
+    margin-bottom: 1rem;
+  }
+  
+  /* Adjust modal width */
+  [style*="maxWidth: '800px'"] {
+    max-width: 95% !important;
+  }
+  
+  [style*="maxWidth: '600px'"] {
+    max-width: 95% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-content {
+    padding: 0.75rem 0.5rem !important;
+  }
+  
+  /* Reduce button padding */
+  button {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Make form inputs full width */
+  input, select, textarea {
+    font-size: 14px !important;
+  }
+}
+
+/* Responsive Grid Utilities */
+@media (max-width: 1200px) {
+  [style*="grid-template-columns: repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  [style*="display: 'flex'"][style*="gap"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+}
+
+/* Mobile Overlay */
+.mobile-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+}
+
+/* Loading Spinner Animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

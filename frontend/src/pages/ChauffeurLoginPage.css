@@ -195,10 +195,11 @@
 }
 
 .login-btn:hover::before {
-  left: 0;
+  left: -100%;
 }
 
 .login-btn:hover {
+  background: #000000;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }

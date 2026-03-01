@@ -55,6 +55,10 @@ const chauffeurSchema = new mongoose.Schema({
     type: String, // Base64 or file path
     required: [true, 'Driver license is required'],
   },
+  chauffeurLicense: {
+    type: String, // Base64 or file path - second license (e.g. TLC for NYC); both licenses must be valid and active
+    required: [true, 'Chauffeur license (second license) is required'],
+  },
   identityCard: {
     type: String, // Base64 or file path
     required: [true, 'Identity card is required'],
@@ -72,9 +76,10 @@ const chauffeurSchema = new mongoose.Schema({
       validate: {
         validator: function() {
           const currentYear = new Date().getFullYear();
-          return this.vehicle.year >= currentYear - 4 && this.vehicle.year <= currentYear;
+          // Allow any year up to current year (no maximum age restriction)
+          return this.vehicle.year <= currentYear;
         },
-        message: 'Vehicle must be no more than 4 years old'
+        message: 'Vehicle year cannot be in the future'
       }
     },
     color: {
@@ -101,24 +106,12 @@ const chauffeurSchema = new mongoose.Schema({
     },
   },
   
-  // Company Documents (Step 5)
+  // Company Documents (optional – not required for registration)
   company: {
-    commercialRegistration: {
-      type: String, // Base64 or file path
-      required: [true, 'Commercial registration is required'],
-    },
-    fleetInsuranceAgreement: {
-      type: String, // Base64 or file path
-      required: [true, 'Fleet insurance agreement is required'],
-    },
-    vatRegistrationCertificate: {
-      type: String, // Base64 or file path
-      required: [true, 'VAT registration certificate is required'],
-    },
-    operatingPermit: {
-      type: String, // Base64 or file path
-      required: [true, 'Operating permit is required'],
-    },
+    commercialRegistration: { type: String },
+    fleetInsuranceAgreement: { type: String },
+    vatRegistrationCertificate: { type: String },
+    operatingPermit: { type: String },
   },
   
   // Requirements Acceptance (Step 2)
@@ -142,6 +135,61 @@ const chauffeurSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isOnline: {
+    type: Boolean,
+    default: false,
+  },
+  
+  // Rating
+  rating: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 5,
+  },
+  totalRatings: {
+    type: Number,
+    default: 0,
+  },
+  
+  // Availability Schedule
+  availability: {
+    monday: {
+      enabled: { type: Boolean, default: false },
+      startTime: { type: String, default: '09:00' },
+      endTime: { type: String, default: '17:00' }
+    },
+    tuesday: {
+      enabled: { type: Boolean, default: false },
+      startTime: { type: String, default: '09:00' },
+      endTime: { type: String, default: '17:00' }
+    },
+    wednesday: {
+      enabled: { type: Boolean, default: false },
+      startTime: { type: String, default: '09:00' },
+      endTime: { type: String, default: '17:00' }
+    },
+    thursday: {
+      enabled: { type: Boolean, default: false },
+      startTime: { type: String, default: '09:00' },
+      endTime: { type: String, default: '17:00' }
+    },
+    friday: {
+      enabled: { type: Boolean, default: false },
+      startTime: { type: String, default: '09:00' },
+      endTime: { type: String, default: '17:00' }
+    },
+    saturday: {
+      enabled: { type: Boolean, default: false },
+      startTime: { type: String, default: '09:00' },
+      endTime: { type: String, default: '17:00' }
+    },
+    sunday: {
+      enabled: { type: Boolean, default: false },
+      startTime: { type: String, default: '09:00' },
+      endTime: { type: String, default: '17:00' }
+    }
+  },
   
   // Timestamps
   createdAt: {
@@ -155,6 +203,8 @@ const chauffeurSchema = new mongoose.Schema({
   lastLogin: {
     type: Date,
   },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
   approvedAt: {
     type: Date,
   },

@@ -219,7 +219,7 @@ const TravelAgenciesPage = () => {
         <div className="container">
           <div className="testimonial-travel-box">
             <p className="testimonial-travel-quote">
-              "We especially value the speed of booking and cost efficiency. We always include Blacklane in our corporate travel packages because of the reliability and service. It's a very important supplier to us here."
+              "We especially value the speed of booking and cost efficiency. We always include Rideserene in our corporate travel packages because of the reliability and service. It's a very important supplier to us here."
             </p>
             <p className="testimonial-travel-author">
               Travel Agency Partner
@@ -283,7 +283,7 @@ const TravelAgenciesPage = () => {
             <div className="api-text">
               <h2>Explore our API integrations</h2>
               <p>
-                Seamlessly integrate Blacklane's global chauffeur network into your booking platform. 
+                Seamlessly integrate Rideserene global chauffeur network into your booking platform. 
                 Our robust API provides real-time availability, instant booking confirmation, and 
                 automated invoicing. Complete technical documentation and dedicated support ensure 
                 smooth integration.

@@ -9,7 +9,7 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // Create subdirectories for different file types
-const dirs = ['profiles', 'licenses', 'documents', 'cars', 'insurance'];
+const dirs = ['profiles', 'licenses', 'documents', 'cars', 'insurance', 'chat'];
 dirs.forEach(dir => {
   const dirPath = path.join(uploadDir, dir);
   if (!fs.existsSync(dirPath)) {
@@ -38,6 +38,10 @@ const storage = multer.diskStorage({
       case 'insuranceDocument':
         folder += 'insurance/';
         break;
+      case 'chatImage':
+      case 'image':
+        folder += 'chat/';
+        break;
       default:
         folder += 'others/';
     }
@@ -52,7 +56,21 @@ const storage = multer.diskStorage({
 
 // File filter
 const fileFilter = (req, file, cb) => {
-  // Allowed file types
+  // For chat images and profile pictures, only allow image types
+  if (file.fieldname === 'chatImage' || file.fieldname === 'image' || file.fieldname === 'profilePicture') {
+    const allowedImageTypes = /jpeg|jpg|png|gif|webp/;
+    const extname = allowedImageTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = file.mimetype && (file.mimetype.startsWith('image/') || allowedImageTypes.test(file.mimetype));
+
+    if (mimetype || extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only image files (.png, .jpg, .jpeg, .gif, .webp) are allowed!'));
+    }
+    return;
+  }
+
+  // For other files, allow images and PDFs
   const allowedTypes = /jpeg|jpg|png|pdf/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = allowedTypes.test(file.mimetype);
@@ -73,4 +91,32 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-module.exports = upload;
+// Chat-specific upload (images only, 10MB max)
+const chatImageUpload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'uploads/chat/');
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, 'chat-' + uniqueSuffix + path.extname(file.originalname));
+    }
+  }),
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB max for chat images
+  },
+  fileFilter: (req, file, cb) => {
+    // More lenient check - accept if mimetype is image/ OR if extension matches
+    const allowedImageTypes = /jpeg|jpg|png|gif|webp/;
+    const extname = allowedImageTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = file.mimetype && file.mimetype.startsWith('image/');
+
+    if (mimetype || extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Only image files (.png, .jpg, .jpeg, .gif, .webp) are allowed!'));
+    }
+  },
+});
+
+module.exports = { upload, chatImageUpload };

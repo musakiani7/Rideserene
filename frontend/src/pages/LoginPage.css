@@ -219,10 +219,11 @@
 }
 
 .login-btn:hover::before {
-  left: 0;
+  left: -100%;
 }
 
 .login-btn:hover {
+  background: #000000;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
@@ -307,26 +308,27 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.signup-link {
+.register-here-wrap {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 
-.signup-link p {
-  font-size: 0.95rem;
-  color: #666;
-}
-
-.signup-link a {
-  color: var(--color-gold);
-  text-decoration: none;
+.register-here-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 12px;
+  font-size: 1rem;
   font-weight: 600;
-  transition: color 0.3s ease;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.signup-link a:hover {
-  color: #b8941f;
-  text-decoration: underline;
+.register-here-btn:hover {
+  background: #000;
+  color: #fff;
 }
 
 /* Right Side - Features */

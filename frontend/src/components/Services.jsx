@@ -10,30 +10,30 @@ const Services = () => {
     {
       id: 1,
       icon: <MapPin size={32} />,
-      title: t('servicesSection.cityToCity.title'),
-      description: t('servicesSection.cityToCity.desc'),
+      title: t('Hourly and full day hire'),
+      description: t('For by-the-hour bookings or daily chauffeur hire, choose one of our tailored services for total flexibility, reliability and comfort.'),
       link: '/services/city-to-city'
     },
     {
       id: 2,
       icon: <Car size={32} />,
-      title: t('servicesSection.chauffeurHailing.title'),
-      description: t('servicesSection.chauffeurHailing.desc'),
+      title: t('City-to-city rides'),
+      description: t('Your stress-free solution for long-distance rides with professional chauffeurs across the globe.'),
       link: '/services/chauffeur-hailing',
-      badge: t('servicesSection.newBadge')
+      
     },
     {
       id: 3,
       icon: <Plane size={32} />,
-      title: t('servicesSection.airportTransfers.title'),
-      description: t('servicesSection.airportTransfers.desc'),
+      title: t('Airport transfers'),
+      description: t('With additional wait time and flight tracking in case of delays, our service is optimized to make every airport transfer a breeze.'),
       link: '/services/airport-transfers'
     },
     {
       id: 4,
       icon: <Clock size={32} />,
-      title: t('servicesSection.hourlyHire.title'),
-      description: t('servicesSection.hourlyHire.desc'),
+      title: t('Chauffeur hailing'),
+      description: t('Enjoy the quality of a traditional chauffeur, with the convenience of riding within minutes of booking.'),
       link: '/services/hourly-hire'
     }
   ];
@@ -41,7 +41,7 @@ const Services = () => {
   return (
     <section className="services section">
       <div className="container">
-        <h2 className="section-title">{t('servicesSection.title')}</h2>
+        <h2 className="section-title">{t('Services')}</h2>
         <div className="services-grid">
           {services.map((service) => (
             <div key={service.id} className="service-card">
@@ -54,7 +54,7 @@ const Services = () => {
               </div>
               <p className="service-description">{service.description}</p>
               <Link to={service.link} className="service-link">
-                {t('common.learnMore')} →
+                Learn More →
               </Link>
             </div>
           ))}

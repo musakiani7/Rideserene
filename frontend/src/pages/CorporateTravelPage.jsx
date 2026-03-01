@@ -239,7 +239,7 @@ const CorporateTravelPage = () => {
         <div className="container">
           <div className="testimonial-corporate-box">
             <p className="testimonial-corporate-quote">
-              "I know that I can rely on Blacklane's high quality standards worldwide. The customer service team focus at Blacklane, which makes me feel taken care of."
+              "I know that I can rely on Rideserene high quality standards worldwide. The customer service team focus at Rideserene, which makes me feel taken care of."
             </p>
             <p className="testimonial-corporate-author">
               Witta Wente, Project Manager, American Express Meetings & Events
@@ -562,7 +562,7 @@ const CorporateTravelPage = () => {
       <section className="final-cta-section section">
         <div className="container">
           <div className="final-cta-box">
-            <h3>Ready for Blacklane?</h3>
+            <h3>Ready for Rideserene?</h3>
             <button className="btn-corporate-primary-large">Get started</button>
           </div>
         </div>

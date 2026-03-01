@@ -16,21 +16,27 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log('MongoDB connected successfully'))
 .catch((err) => console.error('MongoDB connection error:', err));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/bookings', require('./routes/booking'));
+app.use('/api/dashboard', require('./routes/dashboard'));
+app.use('/api/stripe', require('./routes/stripe'));
 app.use('/api/chauffeur', require('./routes/chauffeur'));
+app.use('/api/chauffeur/dashboard', require('./routes/chauffeurDashboard'));
+app.use('/api/chauffeur/reviews', require('./routes/reviews'));
 app.use('/api/corporate', require('./routes/corporate'));
 app.use('/api/travel-agency', require('./routes/travelAgency'));
 app.use('/api/partnership', require('./routes/partnership'));
 app.use('/api/events', require('./routes/events'));
+
+// Admin routes
+app.use('/api/admin/auth', require('./routes/adminAuth'));
+app.use('/api/admin/payouts', require('./routes/adminPayouts'));
+app.use('/api/admin', require('./routes/adminDashboard'));
 
 // Serve uploaded files
 app.use('/uploads', express.static('uploads'));

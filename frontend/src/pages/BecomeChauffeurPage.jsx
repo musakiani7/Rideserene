@@ -2,15 +2,27 @@ import { useState } from 'react';
 import { DollarSign, Calendar, Users, Headphones, FileText, Shield, ChevronDown, X, Upload } from 'lucide-react';
 import './BecomeChauffeurPage.css';
 
+// Inline field error bubble (speech-bubble style with exclamation icon)
+const FieldError = ({ message }) => {
+  if (!message) return null;
+  return (
+    <div className="field-error-bubble" role="alert">
+      <span className="field-error-icon" aria-hidden="true">!</span>
+      <span className="field-error-text">{message}</span>
+    </div>
+  );
+};
+
 const BecomeChauffeurPage = () => {
   const [openFaq, setOpenFaq] = useState(null);
   const [showRegistration, setShowRegistration] = useState(false);
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState({});
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const [formData, setFormData] = useState({
-    country: '',
+    country: 'United States',
     city: '',
     countryCode: '',
     firstName: '',
@@ -22,6 +34,7 @@ const BecomeChauffeurPage = () => {
     requirementsAccepted: false,
     profilePicture: null,
     driverLicense: null,
+    chauffeurLicense: null,
     identityCard: null,
     vehicle: {
       model: '',
@@ -31,12 +44,6 @@ const BecomeChauffeurPage = () => {
       registrationCertificate: null,
       insuranceCertificate: null,
       vehiclePhoto: null,
-    },
-    company: {
-      commercialRegistration: null,
-      fleetInsuranceAgreement: null,
-      vatRegistrationCertificate: null,
-      operatingPermit: null,
     }
   });
 
@@ -69,196 +76,85 @@ const BecomeChauffeurPage = () => {
 
   const countries = [
     { name: 'United States', code: '+1' },
-    { name: 'Canada', code: '+1' },
-    { name: 'United Kingdom', code: '+44' },
-    { name: 'Australia', code: '+61' },
-    { name: 'Germany', code: '+49' },
-    { name: 'France', code: '+33' },
-    { name: 'Spain', code: '+34' },
-    { name: 'Italy', code: '+39' },
-    { name: 'Japan', code: '+81' },
-    { name: 'China', code: '+86' },
-    { name: 'India', code: '+91' },
-    { name: 'Mexico', code: '+52' },
-    { name: 'Brazil', code: '+55' },
-    { name: 'Singapore', code: '+65' },
-    { name: 'Hong Kong', code: '+852' },
-    { name: 'Thailand', code: '+66' },
-    { name: 'Malaysia', code: '+60' },
-    { name: 'Indonesia', code: '+62' },
-    { name: 'Philippines', code: '+63' },
-    { name: 'South Korea', code: '+82' },
-    { name: 'Vietnam', code: '+84' },
-    { name: 'UAE', code: '+971' },
-    { name: 'Saudi Arabia', code: '+966' },
-    { name: 'Qatar', code: '+974' },
-    { name: 'Bahrain', code: '+973' },
-    { name: 'Kuwait', code: '+965' },
-    { name: 'Oman', code: '+968' },
-    { name: 'Egypt', code: '+20' },
-    { name: 'South Africa', code: '+27' },
-    { name: 'Turkey', code: '+90' },
-    { name: 'Switzerland', code: '+41' },
-    { name: 'Netherlands', code: '+31' },
-    { name: 'Belgium', code: '+32' },
-    { name: 'Sweden', code: '+46' },
-    { name: 'Norway', code: '+47' },
-    { name: 'Denmark', code: '+45' },
-    { name: 'Poland', code: '+48' },
-    { name: 'Greece', code: '+30' },
-    { name: 'Portugal', code: '+351' },
-    { name: 'Ireland', code: '+353' },
-    { name: 'New Zealand', code: '+64' },
   ];
 
   const cities = {
     'United States': [
       'New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia',
-      'San Antonio', 'San Diego', 'Dallas', 'San Jose', 'Austin', 'Miami',
-      'Atlanta', 'Denver', 'Boston', 'Seattle', 'Washington DC', 'Las Vegas'
-    ],
-    'Canada': ['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa', 'Edmonton'],
-    'United Kingdom': [
-      'London', 'Manchester', 'Birmingham', 'Leeds', 'Glasgow', 'Liverpool',
-      'Bristol', 'Edinburgh', 'Cardiff', 'Belfast'
-    ],
-    'Australia': [
-      'Sydney', 'Melbourne', 'Brisbane', 'Perth', 'Adelaide', 'Canberra', 'Gold Coast'
-    ],
-    'Germany': [
-      'Berlin', 'Munich', 'Cologne', 'Hamburg', 'Frankfurt', 'Düsseldorf',
-      'Stuttgart', 'Dortmund', 'Essen', 'Dresden'
-    ],
-    'France': [
-      'Paris', 'Marseille', 'Lyon', 'Toulouse', 'Nice', 'Nantes', 'Strasbourg',
-      'Montpellier', 'Bordeaux', 'Lille'
-    ],
-    'Spain': [
-      'Madrid', 'Barcelona', 'Valencia', 'Seville', 'Bilbao', 'Málaga',
-      'Murcia', 'Palma', 'Las Palmas', 'Alicante'
-    ],
-    'Italy': [
-      'Rome', 'Milan', 'Naples', 'Turin', 'Palermo', 'Genoa', 'Bologna',
-      'Florence', 'Bari', 'Venice'
-    ],
-    'Japan': [
-      'Tokyo', 'Yokohama', 'Osaka', 'Kyoto', 'Kobe', 'Sapporo', 'Fukuoka',
-      'Kawasaki', 'Saitama', 'Nagoya'
-    ],
-    'China': [
-      'Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen', 'Chengdu', 'Hangzhou',
-      'Chongqing', 'Xi\'an', 'Nanjing', 'Wuhan'
-    ],
-    'India': [
-      'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai', 'Kolkata',
-      'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow'
-    ],
-    'Mexico': [
-      'Mexico City', 'Guadalajara', 'Monterrey', 'Cancún', 'Playa del Carmen',
-      'Acapulco', 'Puerto Vallarta', 'Los Cabos', 'Mazatlán', 'Mérida'
-    ],
-    'Brazil': [
-      'São Paulo', 'Rio de Janeiro', 'Brasília', 'Salvador', 'Fortaleza',
-      'Belo Horizonte', 'Manaus', 'Curitiba', 'Recife', 'Porto Alegre'
-    ],
-    'Singapore': ['Singapore'],
-    'Hong Kong': ['Hong Kong'],
-    'Thailand': [
-      'Bangkok', 'Phuket', 'Pattaya', 'Chiang Mai', 'Krabi', 'Samui',
-      'Hua Hin', 'Rayong', 'Ubon Ratchathani', 'Hat Yai'
-    ],
-    'Malaysia': [
-      'Kuala Lumpur', 'Penang', 'Johor Bahru', 'Ipoh', 'Kuching', 'Kota Kinabalu',
-      'Shah Alam', 'Putrajaya', 'Selangor', 'Klang'
-    ],
-    'Indonesia': [
-      'Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Semarang', 'Makassar',
-      'Palembang', 'Tangerang', 'Depok', 'Bali'
-    ],
-    'Philippines': [
-      'Manila', 'Cebu', 'Davao', 'Quezon City', 'Caloocan', 'Las Piñas',
-      'Makati', 'Pasig', 'Boracay', 'Subic'
-    ],
-    'South Korea': [
-      'Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju',
-      'Ulsan', 'Goyang', 'Yongin', 'Suwon'
-    ],
-    'Vietnam': [
-      'Hanoi', 'Ho Chi Minh City', 'Da Nang', 'Hai Phong', 'Can Tho',
-      'Hue', 'Nha Trang', 'Da Lat', 'Quang Ninh', 'Vung Tau'
-    ],
-    'UAE': [
-      'Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah',
-      'Fujairah', 'Umm Al Quwain', 'Al Ain'
-    ],
-    'Saudi Arabia': [
-      'Riyadh', 'Jeddah', 'Dammam', 'Mecca', 'Medina', 'Khobar',
-      'Abha', 'Taif', 'Tabuk', 'Al Khobar'
-    ],
-    'Qatar': ['Doha', 'Al Rayyan', 'Al Wakrah', 'Umm Salal', 'Al Khor'],
-    'Bahrain': ['Manama', 'Muharraq', 'Riffa', 'Hamad Town', 'Isa Town'],
-    'Kuwait': ['Kuwait City', 'Salmiya', 'Hawalli', 'Al Farwaniyah', 'Jabriya'],
-    'Oman': ['Muscat', 'Salalah', 'Nizwa', 'Sohar', 'Ibra'],
-    'Egypt': [
-      'Cairo', 'Alexandria', 'Giza', 'Shubra El-Khema', 'Damnhur',
-      'Port Said', 'Suez', 'Luxor', 'Aswan', 'Hurghada'
-    ],
-    'South Africa': [
-      'Johannesburg', 'Cape Town', 'Durban', 'Pretoria', 'Port Elizabeth',
-      'Bloemfontein', 'Pietermaritzburg', 'Polokwane', 'East London', 'Kimberley'
-    ],
-    'Turkey': [
-      'Istanbul', 'Ankara', 'Izmir', 'Bursa', 'Antalya', 'Konya',
-      'Gaziantep', 'Adana', 'Diyarbakır', 'Kayseri'
-    ],
-    'Switzerland': [
-      'Zurich', 'Geneva', 'Bern', 'Basel', 'Lucerne', 'St. Gallen',
-      'Lausanne', 'Biel', 'Winterthur', 'Lugano'
-    ],
-    'Netherlands': [
-      'Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht', 'Eindhoven',
-      'Groningen', 'Arnhem', 'Haarlem', 'Almere', 'Breda'
-    ],
-    'Belgium': [
-      'Brussels', 'Antwerp', 'Ghent', 'Charleroi', 'Bruges', 'Liège',
-      'Namur', 'Leuven', 'Mons', 'Tournai'
-    ],
-    'Sweden': [
-      'Stockholm', 'Gothenburg', 'Malmö', 'Uppsala', 'Västerås',
-      'Örebro', 'Linköping', 'Helsingborg', 'Jönköping', 'Norrköping'
-    ],
-    'Norway': [
-      'Oslo', 'Bergen', 'Stavanger', 'Trondheim', 'Fredrikstad',
-      'Drammen', 'Porsgrunn', 'Tromsø', 'Kristiansand', 'Lillehammer'
-    ],
-    'Denmark': [
-      'Copenhagen', 'Aarhus', 'Odense', 'Aalborg', 'Esbjerg',
-      'Randers', 'Kolding', 'Horsens', 'Vejle', 'Herning'
-    ],
-    'Poland': [
-      'Warsaw', 'Krakow', 'Wrocław', 'Poznań', 'Gdańsk', 'Szczecin',
-      'Łódź', 'Bydgoszcz', 'Lublin', 'Katowice'
-    ],
-    'Greece': [
-      'Athens', 'Thessaloniki', 'Patras', 'Iraklion', 'Larissa',
-      'Volos', 'Mytilene', 'Rhodes', 'Corfu', 'Kalamata'
-    ],
-    'Portugal': [
-      'Lisbon', 'Porto', 'Braga', 'Covilhã', 'Setúbal', 'Almada',
-      'Oeiras', 'Amadora', 'Funchal', 'Ponta Delgada'
-    ],
-    'Ireland': [
-      'Dublin', 'Cork', 'Limerick', 'Galway', 'Waterford',
-      'Drogheda', 'Dundalk', 'Tralee', 'Navan', 'Athlone'
-    ],
-    'New Zealand': [
-      'Auckland', 'Wellington', 'Christchurch', 'Queenstown', 'Dunedin',
-      'Hamilton', 'Tauranga', 'Whangarei', 'Rotorua', 'Napier'
-    ],
+      'San Antonio', 'San Diego', 'Dallas', 'San Jose', 'Austin', 'Austin',
+      'Jacksonville', 'Fort Worth', 'Columbus', 'Charlotte', 'San Francisco',
+      'Indianapolis', 'Seattle', 'Denver', 'Boston', 'Nashville', 'Detroit',
+      'Portland', 'Las Vegas', 'Memphis', 'Louisville', 'Baltimore', 'Milwaukee',
+      'Albuquerque', 'Tucson', 'Fresno', 'Mesa', 'Sacramento', 'Atlanta',
+      'Kansas City', 'Colorado Springs', 'Raleigh', 'Miami', 'Omaha', 'Long Beach',
+      'Virginia Beach', 'Oakland', 'Minneapolis', 'Tulsa', 'Tampa', 'Arlington',
+      'New Orleans', 'Wichita', 'Cleveland', 'Bakersfield', 'Aurora', 'Anaheim',
+      'Honolulu', 'Santa Ana', 'St. Louis', 'Riverside', 'Corpus Christi', 'Pittsburgh',
+      'Lexington', 'Anchorage', 'Stockton', 'Cincinnati', 'St. Paul', 'Toledo',
+      'Newark', 'Greensboro', 'Plano', 'Henderson', 'Lincoln', 'Buffalo',
+      'Fort Wayne', 'Jersey City', 'St. Petersburg', 'Chula Vista', 'Orlando',
+      'Laredo', 'Norfolk', 'Chandler', 'Madison', 'Lubbock', 'Scottsdale',
+      'Reno', 'Baltimore', 'Gilbert', 'Glendale', 'North Las Vegas', 'Winston-Salem',
+      'Chesapeake', 'Irving', 'Hialeah', 'Garland', 'Fremont', 'Baton Rouge',
+      'Richmond', 'Boise', 'San Bernardino', 'Birmingham', 'Spokane', 'Rochester',
+      'Des Moines', 'Modesto', 'Fayetteville', 'Tacoma', 'Oxnard', 'Fontana',
+      'Columbus', 'Montgomery', 'Moreno Valley', 'Shreveport', 'Aurora', 'Yonkers',
+      'Charleston', 'Oceanside', 'Grand Prairie', 'Rancho Cucamonga', 'Santa Clarita',
+      'Port St. Lucie', 'Huntington Beach', 'Amarillo', 'Little Rock', 'Salt Lake City',
+      'Grand Rapids', 'Tallahassee', 'Huntsville', 'Knoxville', 'Worcester',
+      'Newport News', 'Brownsville', 'Santa Rosa', 'Overland Park', 'Providence',
+      'Garden Grove', 'Santa Clara', 'Oklahoma City', 'Vancouver', 'Chattanooga',
+      'Fort Lauderdale', 'Rockford', 'Tempe', 'Sioux Falls', 'Ontario', 'Springfield',
+      'Cape Coral', 'Pembroke Pines', 'Elk Grove', 'Salinas', 'Palm Bay', 'Corona',
+      'Eugene', 'Salem', 'Springfield', 'Manchester', 'Hollywood', 'Lakewood',
+      'Kansas City', 'Escondido', 'Pomona', 'Pasadena', 'Joliet', 'Paterson',
+      'Killeen', 'Bellevue', 'Macon', 'Rockford', 'Savannah', 'Bridgeport',
+      'Torrance', 'McAllen', 'Syracuse', 'Surprise', 'Denton', 'Roseville',
+      'Thornton', 'Miramar', 'Pasadena', 'Mesquite', 'Olathe', 'Dayton',
+      'Hampton', 'Warren', 'Midland', 'Waco', 'Charleston', 'Columbia',
+      'Orange', 'Fullerton', 'Killeen', 'New Haven', 'Stamford', 'Vallejo',
+      'Columbia', 'Fayetteville', 'Sterling Heights', 'Santa Maria', 'El Monte',
+      'Round Rock', 'Wichita Falls', 'Green Bay', 'Davenport', 'West Valley City',
+      'Cedar Rapids', 'Richardson', 'Lewisville', 'Antioch', 'College Station',
+      'High Point', 'Pearland', 'Gainesville', 'Wilmington', 'Billings',
+      'Rochester', 'Broken Arrow', 'Elgin', 'West Covina', 'Lakeland', 'Clarksville',
+      'Clearwater', 'Evansville', 'Palm Coast', 'Norman', 'Richmond', 'Arvada',
+      'Edison', 'Allen', 'Abilene', 'League City', 'Tyler', 'Nampa',
+      'Boulder', 'Sugar Land', 'Daly City', 'Lewisville', 'Hillsboro', 'San Angelo',
+      'Kenosha', 'Federal Way', 'Largo', 'Renton', 'South Bend', 'Vista',
+      'Tuscaloosa', 'Clinton', 'Edinburg', 'San Mateo', 'Vacaville', 'Carmel',
+      'Spokane Valley', 'San Leandro', 'Rapid City', 'Lake Forest', 'Orem',
+      'Bend', 'Lynn', 'Sandy Springs', 'Jurupa Valley', 'Burbank', 'Greenville',
+      'Wichita Falls', 'Westminster', 'Midland', 'Charleston', 'Murrieta',
+      'Columbia', 'Miami Gardens', 'Everett', 'Downey', 'Lowell', 'Centennial',
+      'El Cajon', 'Richmond', 'Broken Arrow', 'Miami Beach', 'Rialto', 'Las Cruces',
+      'San Marcos', 'Davenport', 'Bethlehem', 'Albany', 'Sparks', 'Sandy',
+      'Trenton', 'Baldwin Park', 'San Tan Valley', 'Bellingham', 'Hoover',
+      'Rochester', 'Folsom', 'Quincy', 'Lynn', 'New Bedford', 'Suffolk',
+      'Manteca', 'Carson', 'Conroe', 'Livonia', 'Westminster', 'South Gate',
+      'Tracy', 'Compton', 'Roseville', 'Thousand Oaks', 'Roswell', 'Beaumont',
+      'El Monte', 'Indio', 'Menifee', 'Victorville', 'Berkeley', 'Fairfield',
+      'Napa', 'Murfreesboro', 'High Point', 'Downey', 'Elgin', 'Wilmington',
+      'Westminster', 'Arlington', 'Midland', 'Wichita Falls', 'Norman',
+      'Port Arthur', 'Carson City', 'Manchester', 'Binghamton', 'St. Joseph',
+      'Albany', 'Valdosta', 'Lawrence', 'Lawton', 'Morgantown', 'Pueblo',
+      'Eau Claire', 'Fargo', 'Grand Forks', 'Athens', 'Columbia', 'Dover',
+      'Augusta', 'Montgomery', 'Frankfort', 'Pierre', 'Helena', 'Concord',
+      'Harrisburg', 'Hartford', 'Dover', 'Annapolis', 'Lansing', 'Springfield',
+      'Olympia', 'Salem', 'Boise', 'Cheyenne', 'Bismarck', 'Juneau',
+      'Santa Fe', 'Phoenix', 'Salt Lake City', 'Denver', 'Austin', 'Nashville',
+      'Raleigh', 'Columbus', 'Indianapolis', 'Tallahassee', 'Atlanta', 'Boston',
+      'Washington DC', 'Sacramento', 'Albany', 'Trenton', 'Harrisburg', 'Dover',
+    ].filter((city, index, self) => self.indexOf(city) === index).sort(),
   };
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+    setFieldErrors(prev => {
+      const next = { ...prev };
+      delete next[name];
+      return next;
+    });
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
       setFormData(prev => ({
@@ -302,86 +198,84 @@ const BecomeChauffeurPage = () => {
           ...prev,
           [name]: file.name
         }));
+        setFieldErrors(prev => {
+          const next = { ...prev };
+          delete next[name];
+          return next;
+        });
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleNextStep = () => {
+    setFieldErrors({});
     if (step === 1) {
-      if (!formData.country || !formData.city) {
-        alert('Please select country and city');
+      const err = {};
+      if (!formData.country) err.country = 'Please fill out this field.';
+      if (!formData.city) err.city = 'Please fill out this field.';
+      if (Object.keys(err).length) {
+        setFieldErrors(err);
         return;
       }
     } else if (step === 2) {
       if (!formData.requirementsAccepted) {
-        alert('Please accept the requirements');
+        setFieldErrors({ requirementsAccepted: 'Please accept the requirements to continue.' });
         return;
       }
     } else if (step === 3) {
-      if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.password) {
-        alert('Please fill in all personal details');
-        return;
-      }
-      if (formData.password !== formData.confirmPassword) {
-        alert('Passwords do not match');
+      const err = {};
+      if (!formData.firstName?.trim()) err.firstName = 'Please fill out this field.';
+      if (!formData.lastName?.trim()) err.lastName = 'Please fill out this field.';
+      if (!formData.email?.trim()) err.email = 'Please fill out this field.';
+      if (!formData.phone?.trim()) err.phone = 'Please fill out this field.';
+      if (!formData.password) err.password = 'Please fill out this field.';
+      if (formData.password !== formData.confirmPassword) err.confirmPassword = 'Passwords do not match.';
+      if (!formData.confirmPassword) err.confirmPassword = err.confirmPassword || 'Please fill out this field.';
+      if (Object.keys(err).length) {
+        setFieldErrors(err);
         return;
       }
     } else if (step === 4) {
-      if (!formData.vehicle.model || !formData.vehicle.year || !formData.vehicle.color || !formData.vehicle.registrationNumber) {
-        alert('Please fill in all vehicle details');
+      const err = {};
+      if (!formData.vehicle.model?.trim()) err['vehicle.model'] = 'Please fill out this field.';
+      if (!formData.vehicle.year) err['vehicle.year'] = 'Please fill out this field.';
+      if (!formData.vehicle.color?.trim()) err['vehicle.color'] = 'Please fill out this field.';
+      if (!formData.vehicle.registrationNumber?.trim()) err['vehicle.registrationNumber'] = 'Please fill out this field.';
+      if (Object.keys(err).length) {
+        setFieldErrors(err);
         return;
       }
     }
+    setFieldErrors({});
     setStep(step + 1);
   };
 
   const handlePreviousStep = () => {
+    setFieldErrors({});
     setStep(step - 1);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate all documents are uploaded
-    if (!formData.profilePicture) {
-      alert('Please upload profile picture');
-      return;
-    }
-    if (!formData.driverLicense) {
-      alert('Please upload driver license');
-      return;
-    }
-    if (!formData.identityCard) {
-      alert('Please upload identity card');
-      return;
-    }
-    if (!formData.vehicle.registrationCertificate) {
-      alert('Please upload vehicle registration certificate');
-      return;
-    }
-    if (!formData.vehicle.insuranceCertificate) {
-      alert('Please upload vehicle insurance certificate');
-      return;
-    }
-    if (!formData.vehicle.vehiclePhoto) {
-      alert('Please upload vehicle photo');
-      return;
-    }
-    if (!formData.company.commercialRegistration) {
-      alert('Please upload commercial registration');
-      return;
-    }
-    if (!formData.company.fleetInsuranceAgreement) {
-      alert('Please upload fleet insurance agreement');
-      return;
-    }
-    if (!formData.company.vatRegistrationCertificate) {
-      alert('Please upload VAT registration certificate');
-      return;
-    }
-    if (!formData.company.operatingPermit) {
-      alert('Please upload operating permit');
+    const err = {};
+    if (!formData.firstName?.trim()) err.firstName = 'Please fill out this field.';
+    if (!formData.lastName?.trim()) err.lastName = 'Please fill out this field.';
+    if (!formData.email?.trim()) err.email = 'Please fill out this field.';
+    if (!formData.phone?.trim()) err.phone = 'Please fill out this field.';
+    if (!formData.profilePicture) err.profilePicture = 'Please fill out this field.';
+    if (!formData.driverLicense) err.driverLicense = 'Please fill out this field.';
+    if (!formData.chauffeurLicense) err.chauffeurLicense = 'Please fill out this field.';
+    if (!formData.identityCard) err.identityCard = 'Please fill out this field.';
+    if (!formData.vehicle.model?.trim()) err['vehicle.model'] = 'Please fill out this field.';
+    if (!formData.vehicle.year) err['vehicle.year'] = 'Please fill out this field.';
+    if (!formData.vehicle.color?.trim()) err['vehicle.color'] = 'Please fill out this field.';
+    if (!formData.vehicle.registrationNumber?.trim()) err['vehicle.registrationNumber'] = 'Please fill out this field.';
+    if (!formData.vehicle.registrationCertificate) err['vehicle.registrationCertificate'] = 'Please fill out this field.';
+    if (!formData.vehicle.insuranceCertificate) err['vehicle.insuranceCertificate'] = 'Please fill out this field.';
+    if (!formData.vehicle.vehiclePhoto) err['vehicle.vehiclePhoto'] = 'Please fill out this field.';
+    if (Object.keys(err).length) {
+      setFieldErrors(err);
       return;
     }
 
@@ -403,9 +297,9 @@ const BecomeChauffeurPage = () => {
         requirementsAccepted: formData.requirementsAccepted,
         profilePicture: formData.profilePicture,
         driverLicense: formData.driverLicense,
+        chauffeurLicense: formData.chauffeurLicense,
         identityCard: formData.identityCard,
         vehicle: formData.vehicle,
-        company: formData.company,
       };
 
       const res = await fetch(`${API_BASE}/api/chauffeur/register`, {
@@ -432,11 +326,12 @@ const BecomeChauffeurPage = () => {
       
       setShowRegistration(false);
       setStep(1);
+      setFieldErrors({});
       setUploadedFiles({});
       setFormData({
-        country: '',
+        country: 'United States',
         city: '',
-        countryCode: '',
+        countryCode: '+1',
         firstName: '',
         lastName: '',
         email: '',
@@ -446,9 +341,9 @@ const BecomeChauffeurPage = () => {
         requirementsAccepted: false,
         profilePicture: null,
         driverLicense: null,
+        chauffeurLicense: null,
         identityCard: null,
         vehicle: { model: '', year: '', color: '', registrationNumber: '', registrationCertificate: null, insuranceCertificate: null, vehiclePhoto: null },
-        company: { commercialRegistration: null, fleetInsuranceAgreement: null, vatRegistrationCertificate: null, operatingPermit: null },
       });
     } catch (err) {
       console.error('Registration error:', err);
@@ -501,11 +396,11 @@ const BecomeChauffeurPage = () => {
 
   const faqs = [
     {
-      question: 'Can anyone become a Blacklane partner?',
-      answer: 'To become a Blacklane partner, you need to have a professional chauffeur license, appropriate insurance, and meet our vehicle standards. We welcome both individual chauffeurs and fleet operators.'
+      question: 'Can anyone become a Rideserene partner?',
+      answer: 'To become a Rideserene partner, you need to have a professional chauffeur license, appropriate insurance, and meet our vehicle standards. We welcome both individual chauffeurs and fleet operators.'
     },
     {
-      question: 'How many rides can I do with Blacklane per month?',
+      question: 'How many rides can I do with Rideserene per month?',
       answer: 'There is no limit to the number of rides you can accept. You have complete flexibility to set your own schedule and accept as many rides as you wish.'
     },
     {
@@ -513,15 +408,15 @@ const BecomeChauffeurPage = () => {
       answer: 'Payments are processed monthly and transferred directly to your bank account. You\'ll receive detailed statements showing all completed rides and earnings.'
     },
     {
-      question: 'Which vehicles can I use to work with Blacklane?',
+      question: 'Which vehicles can I use to work with Rideserene?',
       answer: 'We accept premium sedans and SUVs that are no more than 5 years old, well-maintained, smoke-free, and meet our quality standards. Popular models include Mercedes E-Class, BMW 5 Series, and similar vehicles.'
     },
     {
-      question: 'How do I apply to partner with Blacklane?',
+      question: 'How do I apply to partner with Rideserene?',
       answer: 'Click the "Apply now" button on this page to start your application. You\'ll need to provide your professional details, license information, and vehicle documentation.'
     },
     {
-      question: 'Does Blacklane work with electric vehicles?',
+      question: 'Does Rideserene work with electric vehicles?',
       answer: 'Yes! We actively encourage our partners to use electric and hybrid vehicles as part of our commitment to sustainability.'
     }
   ];
@@ -545,25 +440,26 @@ const BecomeChauffeurPage = () => {
       {showRegistration && (
         <div className="registration-modal-overlay">
           <div className="registration-modal">
-            <button className="modal-close-btn" onClick={() => setShowRegistration(false)}>
+            <button className="modal-close-btn" onClick={() => { setFieldErrors({}); setShowRegistration(false); }}>
               <X size={24} />
             </button>
 
             <div className="registration-header">
-              <h2 className="registration-title">BLACKLANE PARTNER</h2>
+              <h2 className="registration-title">Rideserene PARTNER</h2>
               <h3 className="registration-subtitle">Register</h3>
             </div>
 
             {/* Step 1: Country & City Selection */}
             {step === 1 && (
               <form className="registration-form">
-                <div className="form-group">
+                <div className="form-group form-group-with-error">
                   <label>Select Country</label>
+                  <FieldError message={fieldErrors.country} />
                   <select
                     name="country"
                     value={formData.country}
                     onChange={handleInputChange}
-                    className="form-select"
+                    className={`form-select ${fieldErrors.country ? 'input-has-error' : ''}`}
                   >
                     <option value="">-- Select Country --</option>
                     {countries.map(c => (
@@ -572,13 +468,14 @@ const BecomeChauffeurPage = () => {
                   </select>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group form-group-with-error">
                   <label>Select City</label>
+                  <FieldError message={fieldErrors.city} />
                   <select
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="form-select"
+                    className={`form-select ${fieldErrors.city ? 'input-has-error' : ''}`}
                     disabled={!formData.country}
                   >
                     <option value="">-- Select City --</option>
@@ -602,10 +499,11 @@ const BecomeChauffeurPage = () => {
             {step === 2 && (
               <form className="registration-form">
                 <div className="requirements-box">
-                  <h4>Requirements to Drive with Blacklane</h4>
+                  <h4>Requirements to Drive with Rideserene</h4>
                   <ul className="requirements-list">
                     <li>Valid driver's license (minimum 3 years driving experience)</li>
-                    <li>Professional vehicle (maximum 4 years old)</li>
+                    <li>Chauffeurs in NYC must hold two valid, active licenses (e.g. state driver license and TLC/chauffeur license)—both must be valid and active at all times</li>
+                    <li>Professional vehicle</li>
                     <li>Vehicle insurance certificate</li>
                     <li>Commercial registration documents</li>
                     <li>Fluent English communication skills</li>
@@ -613,13 +511,15 @@ const BecomeChauffeurPage = () => {
                   </ul>
                 </div>
 
-                <div className="form-group checkbox">
+                <div className="form-group form-group-with-error checkbox">
+                  <FieldError message={fieldErrors.requirementsAccepted} />
                   <input
                     type="checkbox"
                     name="requirementsAccepted"
                     checked={formData.requirementsAccepted}
                     onChange={handleInputChange}
                     id="requirements-checkbox"
+                    className={fieldErrors.requirementsAccepted ? 'input-has-error' : ''}
                   />
                   <label htmlFor="requirements-checkbox">I confirm I meet all requirements</label>
                 </div>
@@ -647,44 +547,48 @@ const BecomeChauffeurPage = () => {
             {step === 3 && (
               <form className="registration-form">
                 <div className="form-row">
-                  <div className="form-group">
+                  <div className="form-group form-group-with-error">
                     <label>First Name</label>
+                    <FieldError message={fieldErrors.firstName} />
                     <input
                       type="text"
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="form-input"
+                      className={`form-input ${fieldErrors.firstName ? 'input-has-error' : ''}`}
                       placeholder="Enter first name"
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group form-group-with-error">
                     <label>Last Name</label>
+                    <FieldError message={fieldErrors.lastName} />
                     <input
                       type="text"
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="form-input"
+                      className={`form-input ${fieldErrors.lastName ? 'input-has-error' : ''}`}
                       placeholder="Enter last name"
                     />
                   </div>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group form-group-with-error">
                   <label>Email</label>
+                  <FieldError message={fieldErrors.email} />
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="form-input"
+                    className={`form-input ${fieldErrors.email ? 'input-has-error' : ''}`}
                     placeholder="Enter email address"
                   />
                 </div>
 
-                <div className="form-group">
+                <div className="form-group form-group-with-error">
                   <label>Phone Number</label>
+                  <FieldError message={fieldErrors.phone} />
                   <div className="phone-input-group">
                     <span className="country-code">
                       {countries.find(c => c.name === formData.country)?.code || '+966'}
@@ -694,39 +598,42 @@ const BecomeChauffeurPage = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="form-input"
+                      className={`form-input ${fieldErrors.phone ? 'input-has-error' : ''}`}
                       placeholder="Enter phone number"
                     />
                   </div>
                 </div>
 
                 <div className="form-row">
-                  <div className="form-group">
+                  <div className="form-group form-group-with-error">
                     <label>Password</label>
+                    <FieldError message={fieldErrors.password} />
                     <input
                       type="password"
                       name="password"
                       value={formData.password}
                       onChange={handleInputChange}
-                      className="form-input"
+                      className={`form-input ${fieldErrors.password ? 'input-has-error' : ''}`}
                       placeholder="Create password"
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group form-group-with-error">
                     <label>Confirm Password</label>
+                    <FieldError message={fieldErrors.confirmPassword} />
                     <input
                       type="password"
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
-                      className="form-input"
+                      className={`form-input ${fieldErrors.confirmPassword ? 'input-has-error' : ''}`}
                       placeholder="Confirm password"
                     />
                   </div>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group form-group-with-error">
                   <label>Profile Picture</label>
+                  <FieldError message={fieldErrors.profilePicture} />
                   <label className="file-upload-label">
                     <Upload size={20} />
                     <span>Upload Profile Photo</span>
@@ -743,9 +650,13 @@ const BecomeChauffeurPage = () => {
                   )}
                 </div>
 
+                <p className="license-requirement-note">
+                  Chauffeurs in NYC carry two licenses (e.g. state driver license and TLC/chauffeur license). Both must be valid and active. Please upload both below.
+                </p>
                 <div className="form-row">
-                  <div className="form-group">
-                    <label>Driver License</label>
+                  <div className="form-group form-group-with-error">
+                    <label>Driver License (1st license)</label>
+                    <FieldError message={fieldErrors.driverLicense} />
                     <label className="file-upload-label">
                       <Upload size={20} />
                       <span>Upload License</span>
@@ -761,8 +672,29 @@ const BecomeChauffeurPage = () => {
                       <div className="uploaded-file-info">{uploadedFiles['driverLicense']}</div>
                     )}
                   </div>
-                  <div className="form-group">
+                  <div className="form-group form-group-with-error">
+                    <label>Chauffeur License (2nd license, e.g. TLC)</label>
+                    <FieldError message={fieldErrors.chauffeurLicense} />
+                    <label className="file-upload-label">
+                      <Upload size={20} />
+                      <span>Upload License</span>
+                      <input
+                        type="file"
+                        name="chauffeurLicense"
+                        onChange={handleFileChange}
+                        accept="image/*,application/pdf"
+                        hidden
+                      />
+                    </label>
+                    {uploadedFiles['chauffeurLicense'] && (
+                      <div className="uploaded-file-info">{uploadedFiles['chauffeurLicense']}</div>
+                    )}
+                  </div>
+                </div>
+                <div className="form-row">
+                  <div className="form-group form-group-with-error">
                     <label>Identity Card</label>
+                    <FieldError message={fieldErrors.identityCard} />
                     <label className="file-upload-label">
                       <Upload size={20} />
                       <span>Upload ID</span>
@@ -801,66 +733,66 @@ const BecomeChauffeurPage = () => {
 
             {/* Step 4: Vehicle Information */}
             {step === 4 && (
-              <form className="registration-form">
-                <div className="form-group">
+              <form className="registration-form" onSubmit={handleSubmit}>
+                <div className="form-group form-group-with-error">
                   <label>Vehicle Model</label>
-                  <select
+                  <FieldError message={fieldErrors['vehicle.model']} />
+                  <input
+                    type="text"
                     name="vehicle.model"
                     value={formData.vehicle.model}
                     onChange={handleInputChange}
-                    className="form-select"
-                  >
-                    <option value="">-- Select Vehicle --</option>
-                    {approvedVehicles.map(v => (
-                      <option key={v} value={v}>{v}</option>
-                    ))}
-                  </select>
+                    className={`form-input ${fieldErrors['vehicle.model'] ? 'input-has-error' : ''}`}
+                    placeholder="e.g., Mercedes E-Class, BMW 5 Series"
+                  />
                 </div>
 
                 <div className="form-row">
-                  <div className="form-group">
+                  <div className="form-group form-group-with-error">
                     <label>Vehicle Year</label>
+                    <FieldError message={fieldErrors['vehicle.year']} />
                     <input
                       type="number"
                       name="vehicle.year"
                       value={formData.vehicle.year}
                       onChange={handleInputChange}
-                      className="form-input"
-                      placeholder="e.g., 2023"
-                      min={new Date().getFullYear() - 4}
-                      max={new Date().getFullYear()}
+                      className={`form-input ${fieldErrors['vehicle.year'] ? 'input-has-error' : ''}`}
+                      placeholder="e.g., 2020"
+                      min={1990}
+                      max={new Date().getFullYear() + 1}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="form-group form-group-with-error">
                     <label>Vehicle Color</label>
-                    <select
+                    <FieldError message={fieldErrors['vehicle.color']} />
+                    <input
+                      type="text"
                       name="vehicle.color"
                       value={formData.vehicle.color}
                       onChange={handleInputChange}
-                      className="form-select"
-                    >
-                      <option value="">-- Select Color --</option>
-                      <option value="Black">Black</option>
-                      <option value="Silver">Silver</option>
-                    </select>
+                      className={`form-input ${fieldErrors['vehicle.color'] ? 'input-has-error' : ''}`}
+                      placeholder="e.g., Black, Silver, White"
+                    />
                   </div>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group form-group-with-error">
                   <label>Registration Number</label>
+                  <FieldError message={fieldErrors['vehicle.registrationNumber']} />
                   <input
                     type="text"
                     name="vehicle.registrationNumber"
                     value={formData.vehicle.registrationNumber}
                     onChange={handleInputChange}
-                    className="form-input"
+                    className={`form-input ${fieldErrors['vehicle.registrationNumber'] ? 'input-has-error' : ''}`}
                     placeholder="Enter registration number"
                   />
                 </div>
 
                 <div className="form-row">
-                  <div className="form-group">
+                  <div className="form-group form-group-with-error">
                     <label>Registration Certificate</label>
+                    <FieldError message={fieldErrors['vehicle.registrationCertificate']} />
                     <label className="file-upload-label">
                       <Upload size={20} />
                       <span>Upload Certificate</span>
@@ -876,8 +808,9 @@ const BecomeChauffeurPage = () => {
                       <div className="uploaded-file-info">{uploadedFiles['vehicle.registrationCertificate']}</div>
                     )}
                   </div>
-                  <div className="form-group">
+                  <div className="form-group form-group-with-error">
                     <label>Insurance Certificate</label>
+                    <FieldError message={fieldErrors['vehicle.insuranceCertificate']} />
                     <label className="file-upload-label">
                       <Upload size={20} />
                       <span>Upload Insurance</span>
@@ -895,8 +828,9 @@ const BecomeChauffeurPage = () => {
                   </div>
                 </div>
 
-                <div className="form-group">
+                <div className="form-group form-group-with-error">
                   <label>Vehicle Photo</label>
+                  <FieldError message={fieldErrors['vehicle.vehiclePhoto']} />
                   <label className="file-upload-label">
                     <Upload size={20} />
                     <span>Upload Vehicle Photo</span>
@@ -910,103 +844,6 @@ const BecomeChauffeurPage = () => {
                   </label>
                   {uploadedFiles['vehicle.vehiclePhoto'] && (
                     <div className="uploaded-file-info">{uploadedFiles['vehicle.vehiclePhoto']}</div>
-                  )}
-                </div>
-
-                <div className="button-group">
-                  <button
-                    type="button"
-                    className="btn-back"
-                    onClick={handlePreviousStep}
-                  >
-                    Back
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-next"
-                    onClick={handleNextStep}
-                  >
-                    Next
-                  </button>
-                </div>
-              </form>
-            )}
-
-            {/* Step 5: Company Documents */}
-            {step === 5 && (
-              <form className="registration-form" onSubmit={handleSubmit}>
-                <h4 className="step-subtitle">Company Documents</h4>
-                <p className="step-description">Please upload all required company documentation</p>
-
-                <div className="form-group">
-                  <label>Commercial Registration</label>
-                  <label className="file-upload-label">
-                    <Upload size={20} />
-                    <span>Upload Document</span>
-                    <input
-                      type="file"
-                      name="company.commercialRegistration"
-                      onChange={handleFileChange}
-                      accept="image/*,application/pdf"
-                      hidden
-                    />
-                  </label>
-                  {uploadedFiles['company.commercialRegistration'] && (
-                    <div className="uploaded-file-info">{uploadedFiles['company.commercialRegistration']}</div>
-                  )}
-                </div>
-
-                <div className="form-group">
-                  <label>Fleet Insurance Agreement</label>
-                  <label className="file-upload-label">
-                    <Upload size={20} />
-                    <span>Upload Document</span>
-                    <input
-                      type="file"
-                      name="company.fleetInsuranceAgreement"
-                      onChange={handleFileChange}
-                      accept="image/*,application/pdf"
-                      hidden
-                    />
-                  </label>
-                  {uploadedFiles['company.fleetInsuranceAgreement'] && (
-                    <div className="uploaded-file-info">{uploadedFiles['company.fleetInsuranceAgreement']}</div>
-                  )}
-                </div>
-
-                <div className="form-group">
-                  <label>VAT Registration Certificate</label>
-                  <label className="file-upload-label">
-                    <Upload size={20} />
-                    <span>Upload Document</span>
-                    <input
-                      type="file"
-                      name="company.vatRegistrationCertificate"
-                      onChange={handleFileChange}
-                      accept="image/*,application/pdf"
-                      hidden
-                    />
-                  </label>
-                  {uploadedFiles['company.vatRegistrationCertificate'] && (
-                    <div className="uploaded-file-info">{uploadedFiles['company.vatRegistrationCertificate']}</div>
-                  )}
-                </div>
-
-                <div className="form-group">
-                  <label>Operating Permit</label>
-                  <label className="file-upload-label">
-                    <Upload size={20} />
-                    <span>Upload Document</span>
-                    <input
-                      type="file"
-                      name="company.operatingPermit"
-                      onChange={handleFileChange}
-                      accept="image/*,application/pdf"
-                      hidden
-                    />
-                  </label>
-                  {uploadedFiles['company.operatingPermit'] && (
-                    <div className="uploaded-file-info">{uploadedFiles['company.operatingPermit']}</div>
                   )}
                 </div>
 
@@ -1039,9 +876,9 @@ const BecomeChauffeurPage = () => {
       {/* Intro Section */}
       <section className="intro-section section">
         <div className="container">
-          <h2 className="section-title-chauffeur">Grow your business with Blacklane</h2>
+          <h2 className="section-title-chauffeur">Grow your business with Rideserene</h2>
           <p className="section-description-chauffeur">
-            Blacklane's app and web-portal connect licensed and insured chauffeur partners with a global client base of sophisticated 
+            Rideserene app and web-portal connect licensed and insured chauffeur partners with a global client base of sophisticated 
             business travelers and leisure travelers. You can add rides to your calendar as you could more sources your main source or relay less 
             on other sources. We are committed to supporting our chauffeurs with service quality standards, marketing, and technology that help 
             you cater to chauffeurs with ensuring exceptional service for guests.
@@ -1054,9 +891,9 @@ const BecomeChauffeurPage = () => {
         <div className="container">
           <div className="testimonial-box">
             <p className="testimonial-quote">
-              "Blacklane is 60% of my revenue. I've grown from 2 to 20 chauffeurs and have 10 vehicles from working with them."
+              "Rideserene is 60% of my revenue. I've grown from 2 to 20 chauffeurs and have 10 vehicles from working with them."
             </p>
-            <p className="testimonial-author">Angel T., Blacklane chauffeur, Madrid</p>
+            <p className="testimonial-author">Angel T., Rideserene chauffeur, Madrid</p>
           </div>
         </div>
       </section>
@@ -1096,7 +933,6 @@ const BecomeChauffeurPage = () => {
               <p className="requirements-note">
                 Note: Each city or country may have specific legal for your business there.
               </p>
-              <button className="view-requirements-btn">View local requirements</button>
             </div>
           </div>
         </div>
@@ -1113,7 +949,7 @@ const BecomeChauffeurPage = () => {
                   <li key={index}>{step}</li>
                 ))}
               </ol>
-              <button className="apply-btn-onboarding">Apply now</button>
+              <button type="button" className="apply-btn-onboarding" onClick={() => setShowRegistration(true)}>Apply now</button>
             </div>
             <div className="onboarding-image">
               <img src="/images/chauffeur-car.jpg" alt="Chauffeur with Vehicle" />
@@ -1133,12 +969,11 @@ const BecomeChauffeurPage = () => {
               <h2 className="sustainability-title">Driving a sustainable future</h2>
               <p className="sustainability-description">
                 As pioneers of sustainable chauffeuring, we're committed to reducing travel's impact in all our cities, offering 
-                moving toward making all of our cities electric. Our acquisition of business towards Blacklane chauffeur service 
-                has been one of our first major sustainability commitments. Since 2018, Blacklane has increased the use of hybrid 
+                moving toward making all of our cities electric. Our acquisition of business towards Rideserene chauffeur service 
+                has been one of our first major sustainability commitments. Since 2018, Rideserene has increased the use of hybrid 
                 and electric cars in our offering in Paris, some cities drive 24/7 in carbon offset and we're working on offsetting all 
                 of our carbon emissions since the company founding in 2011.
               </p>
-              <button className="learn-more-btn">Learn more</button>
             </div>
           </div>
         </div>
@@ -1173,17 +1008,6 @@ const BecomeChauffeurPage = () => {
             <div className="faq-chauffeur-image">
               <img src="/images/woman-professional.jpg" alt="Professional Chauffeur" />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="cta-section section">
-        <div className="container">
-          <div className="cta-box">
-            <p className="cta-text">Still have questions?</p>
-            <p className="cta-subtext">Visit our Partner Help Center or check out our FAQs</p>
-            <button className="learn-more-cta-btn">Learn more</button>
           </div>
         </div>
       </section>

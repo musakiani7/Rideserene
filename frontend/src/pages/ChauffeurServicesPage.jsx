@@ -371,7 +371,7 @@ const ChauffeurServicesPage = () => {
             <div className="cs-hire-text">
               <h2>Chauffeur hire worldwide</h2>
               <p>
-                There's no more comfortable, reliable and stylish way to travel than by Blacklane chauffeur services. Wherever you are, no matter the service. Lifted by a local limousine provider that is dedicated to upholding our high standards and a membership of top-quality drivers in your service. It doesn't matter whether it's an important business meeting that you feel free to ask your totally knowledgeable chauffeur for tips and suggestions on what to see or local special just the right advice. The Blacklane network of chauffeurs in local areas covers different zones across five continents and Asia, so you can select our professional chauffeur service across multiple continents, wherever life happens to take you. Blacklane chauffeurs are meticulous in their dedication to providing first-rate, five-star service — whether for a smooth, stress-free ride.
+                There's no more comfortable, reliable and stylish way to travel than by Rideserene chauffeur services. Wherever you are, no matter the service. Lifted by a local limousine provider that is dedicated to upholding our high standards and a membership of top-quality drivers in your service. It doesn't matter whether it's an important business meeting that you feel free to ask your totally knowledgeable chauffeur for tips and suggestions on what to see or local special just the right advice. The Rideserene network of chauffeurs in local areas covers different zones across five continents and Asia, so you can select our professional chauffeur service across multiple continents, wherever life happens to take you. Rideserene chauffeurs are meticulous in their dedication to providing first-rate, five-star service — whether for a smooth, stress-free ride.
               </p>
             </div>
             <div className="cs-hire-image">
@@ -391,7 +391,7 @@ const ChauffeurServicesPage = () => {
             <div className="cs-travel-text">
               <h2>Travel from A to B in your city by private chauffeur</h2>
               <p>
-                A stylish Blacklane limousine service is the perfect way to get yourself around a city with the greatest of class, a comfortable and stylish solution for your business travel or a special excursion out. For longer distances, we've got airport transfer service or professional private chauffeur service. For cross-traveling in larger groups, we offer a Business Van service — the perfect vehicle for traveling with colleagues and enjoying our down-to-down, door-to-door service. Once you book, your chauffeur will be there to meet every mode of transport is required, for which we offer our First Class service. Blacklane's fleet of stylish black cars are also available for hourly hire. You decide what you prefer to have approach the best chauffeur service instantly-contact.
+                A stylish Rideserene limousine service is the perfect way to get yourself around a city with the greatest of class, a comfortable and stylish solution for your business travel or a special excursion out. For longer distances, we've got airport transfer service or professional private chauffeur service. For cross traveling in larger groups, we offer a Business Van service the perfect vehicle for traveling with colleagues and enjoying our down-to-down, door-to-door service. Once you book, your chauffeur will be there to meet every mode of transport is required, for which we offer our First Class service.Rideserene fleet of stylish black cars are also available for hourly hire. You decide what you prefer to have approach the best chauffeur service instantly-contact.
               </p>
             </div>
           </div>
@@ -405,7 +405,7 @@ const ChauffeurServicesPage = () => {
             <div className="cs-airport-text">
               <h2>Professional chauffeur service to and from the airport</h2>
               <p>
-                If you've just touched down after a long-haul flight, <strong>Blacklane's first airport transfer service</strong> is in some markets for nothing better, no paid large luggage fees, no stress. All you have to do is relax and feel pampered at this difficult start in hand, to allow you to your waiting vehicle. Use our accessible website or sleek smartphone app to simply create an effortless service, and the price you see is the price you pay. You can even book a chauffeur for a luxury service without the luxury prices and we don't believe in hidden fees – honesty and transparency is our policy with every guest. This means that your ride to the airport can be calm and confident, knowing where you're going to be, something of particular consideration to corporate travelers. Book your <strong>professional and private car service</strong> today!
+                If you've just touched down after a long-haul flight, <strong>Rideserene first airport transfer service</strong> is in some markets for nothing better, no paid large luggage fees, no stress. All you have to do is relax and feel pampered at this difficult start in hand, to allow you to your waiting vehicle. Use our accessible website or sleek smartphone app to simply create an effortless service, and the price you see is the price you pay. You can even book a chauffeur for a luxury service without the luxury prices and we don't believe in hidden fees – honesty and transparency is our policy with every guest. This means that your ride to the airport can be calm and confident, knowing where you're going to be, something of particular consideration to corporate travelers. Book your <strong>professional and private car service</strong> today!
               </p>
             </div>
             <div className="cs-airport-image">
@@ -420,7 +420,7 @@ const ChauffeurServicesPage = () => {
         <div className="cs-container">
           <h2>Experience professional chauffeur service worldwide</h2>
           <p>Book your premium ride in over 50 countries and 100+ cities with professional chauffeurs</p>
-          <button className="cs-cta-button">Book Your Ride Now</button>
+          <button type="button" className="cs-cta-button" onClick={() => navigate('/become-chauffeur')}>Book Your Ride Now</button>
         </div>
       </section>
     </div>

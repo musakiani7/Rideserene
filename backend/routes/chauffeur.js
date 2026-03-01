@@ -2,18 +2,66 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
 const chauffeurController = require('../controllers/chauffeurController');
+const { upload } = require('../middleware/upload');
+
+// Validation middleware for chauffeur registration
+const chauffeurRegistrationValidation = [
+  body('firstName').trim().notEmpty().withMessage('First name is required'),
+  body('lastName').trim().notEmpty().withMessage('Last name is required'),
+  body('email')
+    .isEmail().withMessage('Please enter a valid email address')
+    .normalizeEmail(),
+  body('phone')
+    .trim()
+    .notEmpty().withMessage('Phone number is required')
+    .matches(/^(\+1|1)?[-.\s]?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$/)
+    .withMessage('Please enter a valid United States phone number (e.g., (555) 123-4567, 555-123-4567, or +1-555-123-4567)'),
+  body('password')
+    .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
+    .matches(/[a-z]/).withMessage('Password must contain at least one lowercase letter')
+    .matches(/[A-Z]/).withMessage('Password must contain at least one uppercase letter')
+    .matches(/[0-9]/).withMessage('Password must contain at least one number')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Password must contain at least one special character (!@#$%^&*(),.?":{}|<>)'),
+  body('confirmPassword').custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error('Passwords do not match');
+    }
+    return true;
+  }),
+];
+
+const chauffeurLoginValidation = [
+  body('email')
+    .isEmail().withMessage('Please enter a valid email address')
+    .normalizeEmail(),
+  body('password').notEmpty().withMessage('Password is required'),
+];
 
 // Routes for 5-step registration form
-router.post('/register', chauffeurController.register);
-router.post('/login', chauffeurController.login);
+router.post('/register', chauffeurRegistrationValidation, chauffeurController.register);
+router.post('/login', chauffeurLoginValidation, chauffeurController.login);
 router.get('/approved-vehicles', chauffeurController.getApprovedVehicles);
+router.post('/forgot-password', chauffeurController.forgotPassword);
+router.post('/reset-password', chauffeurController.resetPassword);
 
 // Protected routes (require authentication)
 router.get('/profile', chauffeurController.protect, chauffeurController.getProfile);
-router.put('/profile', chauffeurController.protect, chauffeurController.updateProfile);
-router.get('/status', chauffeurController.protect, chauffeurController.getStatus);
-
-module.exports = router;
+router.put('/profile', 
+  chauffeurController.protect,
+  (req, res, next) => {
+    upload.single('profilePicture')(req, res, (err) => {
+      if (err) {
+        console.error('Multer upload error:', err);
+        return res.status(400).json({
+          success: false,
+          message: err.message || 'File upload failed',
+        });
+      }
+      next();
+    });
+  },
+  chauffeurController.updateProfile
+);
 router.get('/status', chauffeurController.protect, chauffeurController.getStatus);
 
 module.exports = router;

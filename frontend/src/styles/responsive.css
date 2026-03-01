@@ -1,0 +1,421 @@
+/* Global Responsive Styles for RideSerene */
+
+/* Base Responsive Utilities */
+:root {
+  --mobile-padding: 0.75rem;
+  --tablet-padding: 1.5rem;
+  --desktop-padding: 2rem;
+}
+
+/* Container Responsive */
+@media (max-width: 1400px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .container {
+    max-width: 960px;
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .container {
+    max-width: 720px;
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 540px;
+    padding: 0 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    max-width: 100%;
+    padding: 0 0.5rem;
+  }
+}
+
+/* Typography Responsive */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.75rem !important;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+  }
+  
+  h3 {
+    font-size: 1.25rem !important;
+  }
+  
+  h4 {
+    font-size: 1.1rem !important;
+  }
+  
+  h5, h6 {
+    font-size: 1rem !important;
+  }
+  
+  p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  h3 {
+    font-size: 1.1rem !important;
+  }
+  
+  h4 {
+    font-size: 1rem !important;
+  }
+  
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Grid System Responsive */
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 1200px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .grid-cols-4,
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-cols-4,
+  .grid-cols-3,
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .grid {
+    gap: 1rem;
+  }
+}
+
+/* Card Responsive */
+.card {
+  padding: 2rem;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+}
+
+/* Button Responsive */
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    width: 100%;
+  }
+}
+
+/* Table Responsive */
+.table-responsive {
+  overflow-x: auto;
+  /* -webkit-overflow-scrolling: touch; Deprecated - removed for browser compatibility */
+}
+
+@media (max-width: 768px) {
+  table {
+    font-size: 0.875rem;
+  }
+  
+  th, td {
+    padding: 0.5rem !important;
+  }
+  
+  .table-responsive {
+    margin: 0 -0.75rem;
+    padding: 0 0.75rem;
+  }
+}
+
+/* Form Responsive */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  input,
+  select,
+  textarea {
+    padding: 0.625rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  input,
+  select,
+  textarea {
+    padding: 0.5rem;
+    font-size: 14px;
+  }
+}
+
+/* Modal Responsive */
+.modal {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    max-width: 95%;
+    margin: 1rem auto;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    max-width: 100%;
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+}
+
+/* Image Responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.img-responsive {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Spacing Utilities */
+.p-4 { padding: 2rem; }
+.p-3 { padding: 1.5rem; }
+.p-2 { padding: 1rem; }
+.p-1 { padding: 0.5rem; }
+
+.m-4 { margin: 2rem; }
+.m-3 { margin: 1.5rem; }
+.m-2 { margin: 1rem; }
+.m-1 { margin: 0.5rem; }
+
+@media (max-width: 768px) {
+  .p-4 { padding: 1.5rem; }
+  .p-3 { padding: 1rem; }
+  .p-2 { padding: 0.75rem; }
+  
+  .m-4 { margin: 1.5rem; }
+  .m-3 { margin: 1rem; }
+  .m-2 { margin: 0.75rem; }
+}
+
+@media (max-width: 480px) {
+  .p-4 { padding: 1rem; }
+  .p-3 { padding: 0.75rem; }
+  .p-2 { padding: 0.5rem; }
+  
+  .m-4 { margin: 1rem; }
+  .m-3 { margin: 0.75rem; }
+  .m-2 { margin: 0.5rem; }
+}
+
+/* Flex Utilities */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-4 { gap: 2rem; }
+.gap-3 { gap: 1.5rem; }
+.gap-2 { gap: 1rem; }
+.gap-1 { gap: 0.5rem; }
+
+@media (max-width: 768px) {
+  .flex-col-mobile {
+    flex-direction: column !important;
+  }
+  
+  .gap-4 { gap: 1.5rem; }
+  .gap-3 { gap: 1rem; }
+  .gap-2 { gap: 0.75rem; }
+}
+
+@media (max-width: 480px) {
+  .gap-4 { gap: 1rem; }
+  .gap-3 { gap: 0.75rem; }
+  .gap-2 { gap: 0.5rem; }
+}
+
+/* Hide/Show on Different Screens */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+}
+
+/* Scrollbar Styling for Mobile */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #d4af37;
+    border-radius: 2px;
+  }
+}
+
+/* Touch-friendly sizing */
+@media (max-width: 768px) {
+  button,
+  a,
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Prevent text selection on mobile for better UX */
+@media (max-width: 768px) {
+  .no-select-mobile {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
+/* Landscape orientation specific styles */
+@media (max-width: 768px) and (orientation: landscape) {
+  .sidebar {
+    width: 240px;
+  }
+  
+  .modal {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+}

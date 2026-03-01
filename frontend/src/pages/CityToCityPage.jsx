@@ -43,7 +43,7 @@ const CityToCityPage = () => {
     { question: 'How do I get a quote?', answer: 'You can get an instant quote by entering your trip details in the booking form above.' },
     { question: 'How much does it a city-to-city trip?', answer: 'Prices vary based on distance and vehicle type. Enter your route for an instant quote.' },
     { question: 'What is the cancellation policy?', answer: 'Free cancellation up to 24 hours before your scheduled pickup time.' },
-    { question: 'What vehicles does Blacklane use?', answer: 'We offer Business Class sedans, Business Van/SUVs, and First Class luxury vehicles.' },
+    { question: 'What vehicles does Ride Serene use?', answer: 'We offer Business Class sedans, Business Van/SUVs, and First Class luxury vehicles.' },
     { question: 'Where will I receive the chauffeur\'s contact information?', answer: 'Contact information is sent via email and SMS 24 hours before pickup.' },
     { question: 'What happens if my trip is delayed?', answer: 'Contact us immediately and we\'ll do our best to accommodate schedule changes.' },
     { question: 'What if I do not find my chauffeur at the agreed pickup point?', answer: 'Call our 24/7 support team for immediate assistance in locating your chauffeur.' },
@@ -247,7 +247,7 @@ const CityToCityPage = () => {
           <div className="app-content">
             <div className="app-text">
               <h2>Effortless travel at your fingertips</h2>
-              <p>Book, track and manage your journey safely on our Blacklane app.</p>
+              <p>Book, track and manage your journey safely on our Rideserene app.</p>
               <div className="app-badges">
                 <img src="/images/app-store.svg" alt="Download on App Store" />
                 <img src="/images/google-play.svg" alt="Get it on Google Play" />
@@ -267,7 +267,7 @@ const CityToCityPage = () => {
       <section className="benefits-section section">
         <div className="container">
           <h2 className="section-title">Long distance car service, the better way between cities</h2>
-          <p className="section-subtitle">
+          <p style={{ textAlign: "center" }}>
             Whether you're commuting between cities, regional trains, or rail rentals, 
             long-distance journeys are logistically complicated and involve a lot of waiting. 
             Road trips make travel more convenient and also offer unmatched flexibility; 
@@ -317,7 +317,7 @@ const CityToCityPage = () => {
         <div className="container">
           <h2 className="section-title">Global reach</h2>
           <p className="section-description">
-            Blacklane is the leading reliable, professional, safe and punctual 
+            Rideserene is the leading reliable, professional, safe and punctual 
             door-to-door chauffeured car service. Available in over 50 countries, 
             in more than 300 cities and all global major cities, we offer the 
             highest quality chauffeur service that takes you from location A to B 
@@ -338,7 +338,7 @@ const CityToCityPage = () => {
           </div>
 
           <p className="global-note">
-            Explore some of the most famous areas regions in the world with Blacklane's 
+            Explore some of the most famous areas regions in the world with Rideserene 
             intercity transfer service.
           </p>
         </div>
@@ -354,7 +354,7 @@ const CityToCityPage = () => {
           <div className="routes-subsection">
             <div className="routes-subheader">
               <h3>Top cities</h3>
-              <a href="#" className="see-all">See all →</a>
+              <a href="/search" className="see-all">See all →</a>
             </div>
             <div className="cities-grid">
               {topCities.map((city, index) => (
@@ -374,7 +374,7 @@ const CityToCityPage = () => {
           <div className="routes-subsection">
             <div className="routes-subheader">
               <h3>Top routes</h3>
-              <a href="#" className="see-all">See all →</a>
+              <a href="/search" className="see-all">See all →</a>
             </div>
             <div className="routes-grid">
               {topRoutes.map((route, index) => (

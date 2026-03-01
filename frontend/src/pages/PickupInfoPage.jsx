@@ -31,8 +31,8 @@ const PickupInfoPage = () => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     
     if (token) {
-      // User is logged in, go directly to payment
-      navigate('/payment', { 
+      // User is logged in, go directly to checkout
+      navigate('/checkout', { 
         state: { 
           booking: {
             ...booking,
@@ -75,11 +75,6 @@ const PickupInfoPage = () => {
           <div className="progress-line"></div>
           <div className="progress-step">
             <div className="step-circle">4</div>
-            <span>Payment</span>
-          </div>
-          <div className="progress-line"></div>
-          <div className="progress-step">
-            <div className="step-circle">5</div>
             <span>Checkout</span>
           </div>
         </div>

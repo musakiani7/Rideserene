@@ -101,25 +101,12 @@ const BusinessOverviewPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="cta-business-section section">
-        <div className="container">
-          <div className="cta-business-content">
-            <div className="cta-business-text">
-              <h3>Ready to get started?</h3>
-              <p>Start today and create your next account in minutes.</p>
-            </div>
-            <button className="cta-business-btn">Create an account</button>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonial Section */}
+       {/* Testimonial Section */}
       <section className="testimonial-business-section section">
         <div className="container">
           <div className="testimonial-business-box">
             <p className="testimonial-business-quote">
-              "I can always rely on Blacklane to provide our customers with a reliable, professional, and elegant service, with new and clean vehicles that always leave a good impression."
+              "I can always rely on Rideserene to provide our customers with a reliable, professional, and elegant service, with new and clean vehicles that always leave a good impression."
             </p>
             <p className="testimonial-business-author">
               Witta Wente, Project Manager, American Express Meetings & Events

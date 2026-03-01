@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Users, Briefcase, Check, ChevronDown, Info, Clock, MapPin } from 'lucide-react';
+import { PRICING } from '../config/pricing';
 import './SearchResults.css';
 
 const useQuery = () => {
@@ -11,7 +12,6 @@ const vehicleClasses = [
   {
     id: 'business',
     name: 'Business Class',
-    price: 269.86,
     passengers: 3,
     luggage: 2,
     vehicle: 'Mercedes-Benz E-Class or similar',
@@ -21,7 +21,6 @@ const vehicleClasses = [
   {
     id: 'business-van',
     name: 'Business Van/SUV',
-    price: 7067.16,
     passengers: 5,
     luggage: 5,
     vehicle: 'Mercedes-Benz V-Class or similar',
@@ -31,7 +30,6 @@ const vehicleClasses = [
   {
     id: 'first',
     name: 'First Class',
-    price: 9198.10,
     passengers: 3,
     luggage: 2,
     vehicle: 'Mercedes-Benz S-Class or similar',
@@ -51,7 +49,13 @@ const SearchResults = () => {
   const to = query.get('to') || '';
   const date = query.get('date') || '';
   const time = query.get('time') || '';
-  const duration = query.get('duration') || '';
+  const duration = query.get('duration') || '2';
+
+  // Initial-stage pricing: local (NYC) airport $197, hourly $97/hr
+  const hours = Math.max(1, parseInt(duration, 10) || 2);
+  const computedPrice = rideType === 'by-hour'
+    ? PRICING.HOURLY_RATE_PER_HOUR * hours
+    : PRICING.LOCAL_AIRPORT_TRANSFER;
 
   // Calculate estimated arrival time (placeholder logic)
   const calculateArrivalTime = () => {
@@ -71,7 +75,6 @@ const SearchResults = () => {
 
   const handleContinue = () => {
     const selectedVehicleData = vehicleClasses.find(v => v.id === selectedVehicle);
-    // Navigate to pickup info page (or next step in booking flow)
     navigate('/pickup-info', { 
       state: { 
         booking: {
@@ -81,7 +84,7 @@ const SearchResults = () => {
           date,
           time,
           duration,
-          vehicle: selectedVehicleData
+          vehicle: { ...selectedVehicleData, price: computedPrice }
         }
       }
     });
@@ -170,7 +173,7 @@ const SearchResults = () => {
                     <p className="vehicle-model">{vehicle.vehicle}</p>
                   </div>
                   <div className="vehicle-price">
-                    <span className="price-amount">US${vehicle.price.toFixed(2)}</span>
+                    <span className="price-amount">US${computedPrice.toFixed(2)}{rideType === 'by-hour' ? ` (${hours} hr)` : ''}</span>
                     <button
                       className="expand-btn"
                       onClick={(e) => {
@@ -232,7 +235,7 @@ const SearchResults = () => {
 
           {/* Action Buttons */}
           <div className="action-buttons">
-            <a href="#" className="terms-link">View terms & conditions</a>
+            <a href="/terms" target="_blank" rel="noopener noreferrer" className="terms-link">View terms & conditions</a>
             <button className="btn-continue" onClick={handleContinue}>
               Continue
             </button>

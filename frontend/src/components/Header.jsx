@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, ChevronDown, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +11,11 @@ const Header = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    setActiveDropdown(null);
+  };
+
   const toggleDropdown = (menu) => {
     setActiveDropdown(activeDropdown === menu ? null : menu);
   };
@@ -19,20 +24,34 @@ const Header = () => {
     setActiveDropdown(null);
   };
 
+  // Close mobile menu on route change / link click (handled by closeMenu on each Link)
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.classList.add('mobile-menu-open');
+    } else {
+      document.body.classList.remove('mobile-menu-open');
+    }
+    return () => document.body.classList.remove('mobile-menu-open');
+  }, [isMenuOpen]);
+
   return (
     <header className="header">
       <div className="header-container">
         <div className="header-brand">
-          <Link to="/" className="logo">
+          <Link to="/" className="logo" onClick={closeMenu}>
             <span className="logo-text">RIDESERENE</span>
           </Link>
           <p className="tagline">The premium chauffeur marketplace</p>
         </div>
 
+        {/* Mobile overlay: tap outside to close menu */}
+        {isMenuOpen && (
+          <div className="nav-overlay" onClick={closeMenu} aria-hidden="true" />
+        )}
+
         <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
-          <div 
-            className="nav-item"
-          >
+          <div className="nav-item">
             <button 
               className="nav-link" 
               onClick={() => toggleDropdown('services')}
@@ -41,19 +60,17 @@ const Header = () => {
             </button>
             {activeDropdown === 'services' && (
               <div className="dropdown">
-                <Link to="/services/city-to-city" onClick={closeDropdown}>{t('services.cityToCity')}</Link>
-                <Link to="/services/chauffeur-hailing" onClick={closeDropdown}>{t('services.chauffeurHailing')}</Link>
-                <Link to="/services/airport-transfers" onClick={closeDropdown}>{t('services.airportTransfers')}</Link>
-                <Link to="/services/hourly-hire" onClick={closeDropdown}>{t('services.hourlyHire')}</Link>
-                <Link to="/services/chauffeur-services" onClick={closeDropdown}>{t('services.chauffeurServices')}</Link>
-                <Link to="/services/limousine-services" onClick={closeDropdown}>{t('services.limousineServices')}</Link>
+                <Link to="/services/city-to-city" onClick={closeMenu}>{t('services.cityToCity')}</Link>
+                <Link to="/services/chauffeur-hailing" onClick={closeMenu}>{t('services.chauffeurHailing')}</Link>
+                <Link to="/services/airport-transfers" onClick={closeMenu}>{t('services.airportTransfers')}</Link>
+                <Link to="/services/hourly-hire" onClick={closeMenu}>{t('services.hourlyHire')}</Link>
+                <Link to="/services/chauffeur-services" onClick={closeMenu}>{t('services.chauffeurServices')}</Link>
+                <Link to="/services/limousine-services" onClick={closeMenu}>{t('services.limousineServices')}</Link>
               </div>
             )}
           </div>
 
-          <div 
-            className="nav-item"
-          >
+          <div className="nav-item">
             <button 
               className="nav-link"
               onClick={() => toggleDropdown('business')}
@@ -62,18 +79,16 @@ const Header = () => {
             </button>
             {activeDropdown === 'business' && (
               <div className="dropdown">
-                <Link to="/business/overview" onClick={closeDropdown}>{t('businessMenu.overview')}</Link>
-                <Link to="/business/corporate-accounts" onClick={closeDropdown}>{t('businessMenu.corporations')}</Link>
-                <Link to="/business/travel-agencies" onClick={closeDropdown}>{t('businessMenu.travelAgencies')}</Link>
-                <Link to="/business/strategic-partnerships" onClick={closeDropdown}>{t('businessMenu.strategicPartnerships')}</Link>
-                <Link to="/business/events" onClick={closeDropdown}>{t('businessMenu.events')}</Link>
+                <Link to="/business/overview" onClick={closeMenu}>{t('businessMenu.overview')}</Link>
+                <Link to="/business/corporate-accounts" onClick={closeMenu}>{t('businessMenu.corporations')}</Link>
+                <Link to="/business/travel-agencies" onClick={closeMenu}>{t('businessMenu.travelAgencies')}</Link>
+                <Link to="/business/strategic-partnerships" onClick={closeMenu}>{t('businessMenu.strategicPartnerships')}</Link>
+                <Link to="/business/events" onClick={closeMenu}>{t('businessMenu.events')}</Link>
               </div>
             )}
           </div>
 
-          <div 
-            className="nav-item"
-          >
+          <div className="nav-item">
             <button 
               className="nav-link"
               onClick={() => toggleDropdown('chauffeurs')}
@@ -82,21 +97,25 @@ const Header = () => {
             </button>
             {activeDropdown === 'chauffeurs' && (
               <div className="dropdown">
-                <Link to="/become-chauffeur" onClick={closeDropdown}>{t('footer.becomeAChauffeur')}</Link>
-                <Link to="/chauffeur-login" onClick={closeDropdown}>{t('footer.chauffeurLogin')}</Link>
+                <Link to="/become-chauffeur" onClick={closeMenu}>{t('footer.becomeAChauffeur')}</Link>
+                <Link to="/chauffeur-login" onClick={closeMenu}>{t('footer.chauffeurLogin')}</Link>
               </div>
             )}
           </div>
 
-          <Link to="/help" className="nav-link">{t('header.help')}</Link>
-
-          <Link to="/login" className="btn btn-outline sign-in-btn">
+          <Link to="/login" className="btn btn-outline sign-in-btn" onClick={closeMenu}>
             <User size={18} />
             {t('header.signIn')}
           </Link>
         </nav>
 
-        <button className="mobile-menu-toggle" onClick={toggleMenu}>
+        <button 
+          type="button"
+          className="mobile-menu-toggle" 
+          onClick={toggleMenu}
+          aria-expanded={isMenuOpen}
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+        >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>

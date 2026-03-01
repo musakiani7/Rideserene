@@ -1,40 +1,37 @@
 {
+  "welcome": "Welcome to Sher Khan Limousine",
+  "loading": "Loading...",
+  "learnMore": "Learn More",
   "header": {
-    "services": "Services",
-    "business": "Business",
-    "help": "Help",
-    "signIn": "Sign in",
-    "ourServices": "Our services",
-    "forBusiness": "For business",
-    "forChauffeurs": "For chauffeurs"
+    "ourServices": "Our Services",
+    "forBusiness": "For Business",
+    "forChauffeurs": "For Chauffeurs",
+    "signIn": "Sign In"
   },
   "services": {
-    "airportTransfer": "Airport transfer",
-    "cityToCity": "City to city",
-    "hourlyHire": "Hourly & full day hire",
-    "chauffeurServices": "Chauffeur services",
-    "limousineServices": "Limousine services",
+    "cityToCity": "City to City",
     "chauffeurHailing": "Chauffeur Hailing",
-    "airportTransfers": "Airport Transfers"
+    "airportTransfers": "Airport Transfers",
+    "hourlyHire": "Hourly Hire",
+    "chauffeurServices": "Chauffeur Services",
+    "limousineServices": "Limousine Services"
   },
   "businessMenu": {
-    "corporateTravel": "Corporate travel",
-    "travelAgencies": "Travel agencies",
-    "strategicPartnerships": "Strategic partnerships",
-    "events": "Events",
     "overview": "Overview",
-    "corporations": "Corporations"
+    "corporations": "Corporate Accounts",
+    "travelAgencies": "Travel Agencies",
+    "strategicPartnerships": "Strategic Partnerships",
+    "events": "Events"
   },
   "footer": {
-    "becomeAChauffeur": "Become a Chauffeur",
-    "businessOverview": "Business Overview",
-    "chauffeurLogin": "Chauffeur Login",
+    "tagline": "The premium chauffeur marketplace",
     "company": "Company",
     "aboutUs": "About Us",
     "careers": "Careers",
     "press": "Press",
     "blog": "Blog",
     "rideSereneForBusiness": "RideSerene for Business",
+    "businessOverview": "Business Overview",
     "corporateAccounts": "Corporate Accounts",
     "enterprise": "Enterprise",
     "topCities": "Top Cities",
@@ -42,159 +39,8 @@
     "london": "London",
     "paris": "Paris",
     "dubai": "Dubai",
-    "tagline": "Luxury. Reliability. Serene."
-  },
-  "common": {
-    "learnMore": "Learn More",
-    "bookNow": "Book Now",
-    "getStarted": "Get Started",
-    "contact": "Contact Us",
-    "submit": "Submit",
-    "firstName": "First Name",
-    "lastName": "Last Name",
-    "email": "Email",
-    "phone": "Phone",
-    "company": "Company",
-    "message": "Message",
-    "search": "Search",
-    "viewAll": "View All",
-    "readMore": "Read More",
-    "from": "From",
-    "to": "To",
-    "date": "Date",
-    "time": "Time",
-    "duration": "Duration",
-    "hours": "hours",
-    "passengers": "Passengers",
-    "luggage": "Luggage",
-    "people": "people"
-  },
-  "hero": {
-    "title": "Premium Chauffeur Service",
-    "subtitle": "Experience luxury, reliability, and serenity",
-    "oneWay": "One way",
-    "byTheHour": "By the hour",
-    "pickupLocation": "City, address, airport, hotel, ...",
-    "destination": "Destination",
-    "rideDetails": "Ride details",
-    "findYourRide": "Find your ride"
-  },
-  "servicesSection": {
-    "title": "Our services",
-    "cityToCity": {
-      "title": "City-to-city rides",
-      "desc": "A stress-free solution for long-distance rides between cities with professional chauffeurs."
-    },
-    "chauffeurHailing": {
-      "title": "Chauffeur hailing",
-      "desc": "Experience the quality of a traditional chauffeur service with the convenience of riding within minutes of booking."
-    },
-    "airportTransfers": {
-      "title": "Airport transfers",
-      "desc": "Reliable airport transfers with additional wait time and flight tracking for a seamless travel experience."
-    },
-    "hourlyHire": {
-      "title": "Hourly and full day hire",
-      "desc": "Total flexibility, reliability and comfort for your hourly or full-day transportation needs."
-    },
-    "newBadge": "NEW"
-  },
-  "features": {
-    "safetyFirst": {
-      "title": "Safety first",
-      "desc": "Your safety is our top priority. All chauffeurs are verified, licensed, and undergo thorough background checks."
-    },
-    "privateTravel": {
-      "title": "Private travel solutions",
-      "desc": "Your one-stop travel shop for city-to-city rides, airport transfers, hourly hire, and chauffeur hailing."
-    },
-    "sustainableTravel": {
-      "title": "Sustainable travel",
-      "desc": "All ride emissions are offset as part of our commitment to sustainable and responsible transportation."
-    }
-  },
-  "airportTransfer": {
-    "hero": "Premium Airport Transfers",
-    "businessVan": "Business Van",
-    "electricClass": "Electric Class",
-    "businessVanDesc": "Mercedes V-Class, Volkswagen Caravelle Executive, Toyota Alphard, or similar",
-    "electricClassDesc": "Audi e-tron, Tesla Model X, Tesla Model S, or similar",
-    "fitsUpTo": "Fits up to",
-    "competitiveRates": "Competitive rates",
-    "competitiveRatesDesc": "Access premium service at distance-based prices that are fair to you and our chauffeurs.",
-    "seamlessAirportTravel": "Seamless airport travel",
-    "seamlessAirportTravelDesc": "Relax with 1 hour of complimentary wait time and flight tracking.",
-    "travelOnYourTerms": "Travel on your terms",
-    "travelOnYourTermsDesc": "Stay flexible and in charge of your travel schedule. It's quick and easy for you to cancel our service changes to stay vital.",
-    "whatDoesAirportTransferDo": "What does an airport transfer do?",
-    "whatDoesAirportTransferDoAnswer": "An airport transfer provides door-to-door transportation between the airport and your destination. Our professional chauffeurs track your flight and adjust pickup times accordingly."
-  },
-  "cityToCity": {
-    "hero": "City to City Transfers",
-    "topCities": "Top Cities",
-    "topRoutes": "Top Routes",
-    "howDoIGetQuote": "How do I get a quote?",
-    "howDoIGetQuoteAnswer": "You can get an instant quote by entering your trip details in the booking form above.",
-    "whatVehiclesDoYouUse": "What vehicles does Blacklane use?",
-    "whatVehiclesAnswer": "We offer Business Class sedans, Business Van/SUVs, and First Class luxury vehicles."
-  },
-  "chauffeurHailing": {
-    "hero": "Say hello to Chauffeur Hailing™!",
-    "getTheApp": "Get the app",
-    "professionalAtYourFingertips": "Professional chauffeurs at your fingertips",
-    "downloadAppDesc": "Download the Blacklane® Chauffeur Hailing™ app to hail chauffeurs on demand across Dubai.",
-    "convenience": "Convenience",
-    "convenienceDesc": "Get a door-to-door chauffeured ride, right when you need with just a few taps in the Blacklane app.",
-    "comfort": "Comfort",
-    "comfortDesc": "A private ride in a top-of-the-line vehicle makes every journey a pleasure, not just a means to an end.",
-    "quality": "Quality",
-    "qualityDesc": "Making your experience excellent is our top priority. Enjoy the matchless service you deserve for all your travels.",
-    "yourScheduleYourPace": "Your schedule, your pace",
-    "yourScheduleDesc": "Depart when it suits you: no need to work around flight, flight, or rental car times. Plus, free cancellation up until 1 hour before your ride.",
-    "reliability": "Reliability",
-    "reliabilityDesc": "Book with certainty, then stay in the know with real-time ride status updates and chauffeur location tracking."
-  },
-  "hourlyHire": {
-    "hero": "Hourly & Full Day Hire",
-    "businessClass": "Business Class",
-    "businessVanSUV": "Business Van/SUV",
-    "firstClass": "First Class",
-    "vehicleClass": "Vehicle Class",
-    "getLuxury": "Get the luxury",
-    "getLuxuryDesc": "You decide where and when to go, knowing that your chauffeur is waiting patiently; you need to make unmentioned during your journey, or to have time relaxing. You can rent for 2 hours and all the way up to 3 hours.",
-    "enjoyPeaceOfMind": "Enjoy peace of mind",
-    "enjoyPeaceDesc": "Travel with one of our premium vehicles, where you can have premium hours during your ride. Everything is inclusive—fuel, cleaning, insurance, tolls, and local taxes—so there are no surprise charges at the end of the day.",
-    "versatility": "Versatility",
-    "versatilityDesc": "Your chauffeurs are trained to the highest quality and privacy standards.",
-    "rideWithConfidence": "Ride with confidence",
-    "rideWithConfidenceDesc": "With Blacklane's high standards, no matter what happens, you'll feel confident that you can count on us to be here with more: you to reach your destination on time and relax while you enjoy the ride."
-  },
-  "corporateTravel": {
-    "hero": "Corporate Travel Solutions",
-    "businessTrips": "Business trips",
-    "businessTripsDesc": "Provide your employees with the most comfortable transport for their business trips. Add an extra revenue source to your companies, whether domestic or international.",
-    "corporateEvents": "Corporate events",
-    "corporateEventsDesc": "To the board meeting, taking a business trip or going to a conference, make sure your executives and visitors arrive on time and in style.",
-    "roadshows": "Roadshows",
-    "roadshowsDesc": "Get a vehicle for your entire roadshow trip. Our chauffeurs can wait at each location and are ready when you are for the next destination.",
-    "competitivePricing": "Competitive pricing",
-    "competitivePricingDesc": "Access premium service at fixed, distance-based prices that are fair to you and our chauffeurs.",
-    "globalAvailability": "Global availability",
-    "globalAvailabilityDesc": "Book in over 50 countries and 300+ cities worldwide with consistent quality and service.",
-    "priorityDispatching": "Priority dispatching",
-    "priorityDispatchingDesc": "Get priority booking and dispatching for your corporate account with dedicated support.",
-    "easyBooking": "Easy booking",
-    "easyBookingDesc": "Book through our portal, API, app or phone. Set profiles and payment methods for team members.",
-    "corporateReports": "Corporate reports",
-    "corporateReportsDesc": "Get detailed cost reports and usage statistics to help you manage travel budgets efficiently.",
-    "businessTailoredOptions": "Business-tailored options",
-    "businessTailoredOptionsDesc": "We provide the right ride for every occasion, from sedans to SUVs and vans."
-  },
-  "events": {
-    "hero": "Event Transportation Services",
-    "yourChauffeurYourPace": "Your chauffeur, your pace",
-    "yourChauffeurDesc": "Flexible service to go and when. Work on the move with your chauffeur waiting to your timescale, wherever it feels right for you.",
-    "effortlessCityTravel": "Effortless city travel",
-    "effortlessCityTravelDesc": "Navigating a new city? Skip the chaos, confusion and finding parking. Your chauffeur manages all logistics, so you can travel efficiently without the stress."
+    "becomeAChauffeur": "Become a Chauffeur",
+    "chauffeurLogin": "Chauffeur Login",
+    "customerLogin": "Customer Login"
   }
 }

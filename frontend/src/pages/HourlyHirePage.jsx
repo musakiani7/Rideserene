@@ -65,7 +65,7 @@ const HourlyHirePage = () => {
     },
     {
       title: 'Ride with confidence',
-      description: 'With Blacklane\'s high standards, no matter what happens, you\'ll feel confident that you can count on us to be here with more: you to reach your destination on time and relax while you enjoy the ride.'
+      description: 'With Ride Serene high standards, no matter what happens, you\'ll feel confident that you can count on us to be here with more: you to reach your destination on time and relax while you enjoy the ride.'
     },
     {
       title: 'Made to the ride',
@@ -80,7 +80,7 @@ const HourlyHirePage = () => {
     },
     {
       title: 'Full-party ride package',
-      description: 'If you need a car for your entire trip, or want all day coverage with flexible stop lengths, Blacklane\'s hourly rental is perfect. Hire a chauffeur for an assembly to your own this country and enjoy the sweet website the stress of finding a cab home.'
+      description: 'If you need a car for your entire trip, or want all day coverage with flexible stop lengths, Ride Serene hourly rental is perfect. Hire a chauffeur for an assembly to your own this country and enjoy the sweet website the stress of finding a cab home.'
     },
     {
       title: 'Shopping spree',
@@ -93,9 +93,9 @@ const HourlyHirePage = () => {
   ];
 
   const globalLocations = [
-    { name: 'United States', description: 'Ideal a driver for 3 out hours, and be more driver with Francois sharing with the hours that provides that chatter: for you stopping at the places it wanted to see. A Blacklane full day hire in the USA.' },
+    { name: 'United States', description: 'Ideal a driver for 3 out hours, and be more driver with Francois sharing with the hours that provides that chatter: for you stopping at the places it wanted to see. A Ride Serene full day hire in the USA.' },
     { name: 'Portugal', description: 'The chauffeurs are not major drivers that local travel themselves, hiring your trip or just anything, or hiring 4WD around around or heading to the airport. Every journey must have to be.' },
-    { name: 'Canada', description: 'Blacklane\'s the right full drivers could be know about can throughout the trip way and comfortable and have total day driver and drive service at the South. Or 3 hotels around if need a place where it should be there.' }
+    { name: 'Canada', description: 'Ride Serene the right full drivers could be know about can throughout the trip way and comfortable and have total day driver and drive service at the South. Or 3 hotels around if need a place where it should be there.' }
   ];
 
   const faqs = [
@@ -103,7 +103,7 @@ const HourlyHirePage = () => {
     { question: 'How do I enable or Hourly for my hourly ride?', answer: 'You can modify your booking through your account dashboard up to 24 hours before your scheduled pickup time. Contact our support team for assistance.' },
     { question: 'What happens if my booking during the ride?', answer: 'You can extend your booking on the spot subject to chauffeur availability. Additional hours will be charged at the standard hourly rate.' },
     { question: 'When will I receive the chauffeur\'s contact information?', answer: 'You will receive your chauffeur\'s contact details 24 hours before your scheduled pickup via email and SMS.' },
-    { question: 'How do I communicate with the chauffeur between stops?', answer: 'Your chauffeur will provide their direct contact number, and you can also communicate through the Blacklane app during your journey.' },
+    { question: 'How do I communicate with the chauffeur between stops?', answer: 'Your chauffeur will provide their direct contact number, and you can also communicate through the Ride Serene app during your journey.' },
     { question: 'Does the chauffeur speak English?', answer: 'Yes, all our chauffeurs are fluent in English and many also speak additional local languages.' },
     { question: 'Can the I book booking luggage or an event?', answer: 'Yes, hourly bookings are perfect for events. Let us know your requirements in advance for the best experience.' },
     { question: 'Can the chauffeur pick me up city and drop me off another city?', answer: 'Hourly bookings are designed for use within a single city. For intercity travel, please book our City-to-City service.' },
@@ -379,7 +379,7 @@ const HourlyHirePage = () => {
         <div className="container">
           <h2 className="section-title">For all your multi-stop journeys</h2>
           <p className="section-description">
-            Commuting, sightseeing, and flexible. Our hourly chauffeur service is ideal for Blacklane occasions where you need a chauffeur on standby or have several stops to make throughout the day.
+            Commuting, sightseeing, and flexible. Our hourly chauffeur service is ideal for Rideserene occasions where you need a chauffeur on standby or have several stops to make throughout the day.
           </p>
 
           <div className="journey-features-grid">

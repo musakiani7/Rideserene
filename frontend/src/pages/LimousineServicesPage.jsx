@@ -378,7 +378,7 @@ const LimousineServicesPage = () => {
             <div className="limo-city-text">
               <h2>Limo service in the city</h2>
               <p>
-                Although limo services are your preferred way, getting to your destination can be quite different from traditional taxis or your own advantage. At Blacklane, limo service ensures that you'll have a guaranteed driver on hand for every one you don't have anything second-string about your ride. Having a limo service allows you to relax and enjoy the journey, while professional chauffeurs handle navigation and traffic. Whether you're heading to a business meeting or a special event, our service is exactly, Blacklane has a presence in hundreds of cities across the globe. Wherever you are, booking Blacklane is simple as clicking a few buttons.
+                Although limo services are your preferred way, getting to your destination can be quite different from traditional taxis or your own advantage. At Rideserene, limo service ensures that you'll have a guaranteed driver on hand for every one you don't have anything second-string about your ride. Having a limo service allows you to relax and enjoy the journey, while professional chauffeurs handle navigation and traffic. Whether you're heading to a business meeting or a special event, our service is exactly, Rideserene has a presence in hundreds of cities across the globe. Wherever you are, booking Rideserene is simple as clicking a few buttons.
               </p>
               <p><strong>Our limo services include:</strong></p>
               <ul className="limo-city-list">
@@ -403,12 +403,12 @@ const LimousineServicesPage = () => {
               <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80" alt="Get Around" />
             </div>
             <div className="limo-around-text">
-              <h2>Get around with a Blacklane limo service</h2>
+              <h2>Get around with a Rideserene limo service</h2>
               <p>
-                With a Blacklane limo service you take advantage any mode-day trip to key to limo from the airport, a night on the town, or in and that. Thousands, events, from start to finish. Have our drivers drive you to a variety of needs, use regular <strong>Business Class</strong> vehicles use for local or reduce your carbon footprint or should the busy limo experience will suit your style as well as your budget and timeframe. It all depends on you.
+                With a Rideserene limo service you take advantage any mode-day trip to key to limo from the airport, a night on the town, or in and that. Thousands, events, from start to finish. Have our drivers drive you to a variety of needs, use regular <strong>Business Class</strong> vehicles use for local or reduce your carbon footprint or should the busy limo experience will suit your style as well as your budget and timeframe. It all depends on you.
               </p>
               <p>
-                All of our professional chauffeurs are licensed and vetted, ensuring that you're in safe, responsible hands. We guarantee an on-time arrival—crucial for a definitely scheduled service or special event engagement. Need a limo service for guests in a wedding for exactly? We have your covered. Blacklane <strong>Business Class</strong> offers luxury and quality in abundance. Limo services are an excellent way to make party of stops for your luggage and knowledge. Whatever you choose to do, riding around from Blacklane make you'll be arriving in style.
+                All of our professional chauffeurs are licensed and vetted, ensuring that you're in safe, responsible hands. We guarantee an on-time arrival—crucial for a definitely scheduled service or special event engagement. Need a limo service for guests in a wedding for exactly? We have your covered. Rideserene <strong>Business Class</strong> offers luxury and quality in abundance. Limo services are an excellent way to make party of stops for your luggage and knowledge. Whatever you choose to do, riding around from Rideserene make you'll be arriving in style.
               </p>
             </div>
           </div>
@@ -422,7 +422,7 @@ const LimousineServicesPage = () => {
             <div className="limo-airport-text">
               <h2>Airport limousine service</h2>
               <p>
-                Pre-book your airport limousine with us around the clock with an airport transfer booking from Blacklane, from the moment you step off the plane until you arrive at your chosen. Blacklane's limo service prioritizes professionalism, comfort and your peace of mind. Unlike ride-hailing services, or our discounted vehicles or our rides the flexibility and reliability of a chauffeured limousine, we've made sure that you'll be pampered and in comfort throughout your journey from flight landing to your hotel. We can get between in-congested transparency and honestly, which is why when you book our airport limo service with us, the final price you see is the final price you pay. Couple this with top service, our business class, first class and business vans: limos available in multiple categories, major for corporate passengers!
+                Pre-book your airport limousine with us around the clock with an airport transfer booking from Rideserene, from the moment you step off the plane until you arrive at your chosen.Rideserene limo service prioritizes professionalism, comfort and your peace of mind. Unlike ride-hailing services, or our discounted vehicles or our rides the flexibility and reliability of a chauffeured limousine, we've made sure that you'll be pampered and in comfort throughout your journey from flight landing to your hotel. We can get between in-congested transparency and honestly, which is why when you book our airport limo service with us, the final price you see is the final price you pay. Couple this with top service, our business class, first class and business vans: limos available in multiple categories, major for corporate passengers!
               </p>
             </div>
             <div className="limo-airport-image">
@@ -469,7 +469,7 @@ const LimousineServicesPage = () => {
         <div className="limo-container">
           <h2>Experience luxury limousine service worldwide</h2>
           <p>Book your premium chauffeur service in over 50 countries and 100+ cities</p>
-          <button className="limo-cta-button">Book Now</button>
+          <button type="button" className="limo-cta-button" onClick={() => navigate('/become-chauffeur')}>Book Now</button>
         </div>
       </section>
     </div>

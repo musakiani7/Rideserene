@@ -133,7 +133,7 @@ const StrategicPartnershipsPage = () => {
 
   const faqs = [
     {
-      question: "What types of partnerships does Sher Khan Limousine offer?",
+      question: "What types of partnerships does Rideserene offer?",
       answer: "We offer partnerships in Aviation, Cruise, Financial Services, and Hospitality sectors. Each partnership is tailored to meet the specific needs of your industry and customers."
     },
     {
@@ -160,14 +160,14 @@ const StrategicPartnershipsPage = () => {
       <section className="sp-hero">
         <div className="sp-hero-overlay"></div>
         <div className="sp-hero-content">
-          <h1>Partnership Opportunities with Sher Khan Limousine</h1>
+          <h1>Partnership Opportunities with Rideserene</h1>
         </div>
       </section>
 
       {/* Partnership Types Section */}
       <section className="sp-types-section">
         <div className="sp-container">
-          <h2>Become a Sher Khan Limousine partner</h2>
+          <h2>Become a Rideserene partner</h2>
           <div className="sp-types-grid">
             {partnershipTypes.map((type, index) => (
               <div key={index} className="sp-type-card">
@@ -209,7 +209,7 @@ const StrategicPartnershipsPage = () => {
         <div className="sp-container">
           <blockquote className="sp-testimonial">
             <p>
-              "Emirates is committed to extend its premium quality. We offer complimentary Chauffeur-drive service to our First and Business Class customers in over 75 cities worldwide and thanks to Blacklane's global presence, we can deliver this in more destinations."
+              "Emirates is committed to extend its premium quality. We offer complimentary Chauffeur-drive service to our First and Business Class customers in over 75 cities worldwide and thanks to Rideserene global presence, we can deliver this in more destinations."
             </p>
             <cite>Bill McPherson, Emirates Airlines, Former Vice President, Airport Services (Quotation)</cite>
           </blockquote>

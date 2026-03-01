@@ -14,7 +14,7 @@ const bookingSchema = new mongoose.Schema({
   // Trip Details
   rideType: {
     type: String,
-    enum: ['one-way', 'by-hour', 'round-trip'],
+    enum: ['one-way', 'by-hour', 'round-trip', 'hourly', 'city-to-city', 'airport-transfer'],
     required: true,
   },
   pickupLocation: {
@@ -53,11 +53,12 @@ const bookingSchema = new mongoose.Schema({
   
   // Vehicle Details
   vehicleClass: {
-    id: { type: String, required: true },
+    id: String,
     name: { type: String, required: true },
     vehicle: String,
     passengers: Number,
     luggage: Number,
+    basePrice: Number,
   },
   
   // Passenger Details
@@ -123,11 +124,39 @@ const bookingSchema = new mongoose.Schema({
     ref: 'Chauffeur',
   },
   assignedAt: Date,
+  // Chauffeur ride request management (who declined this request)
+  declinedByChauffeurs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Chauffeur',
+    },
+  ],
+  
+  // Ride Progress Tracking
+  startedAt: Date,
+  completedAt: Date,
+  actualEndTime: String,
+  actualDropoffLocation: {
+    address: String,
+    coordinates: {
+      lat: Number,
+      lng: Number,
+    },
+  },
   
   // Additional Info
   notes: String,
+  specialRequests: String,
   cancellationReason: String,
   cancelledAt: Date,
+  
+  // Invoice Details
+  invoiceNumber: String,
+  invoiceGeneratedAt: Date,
+  additionalCharges: {
+    type: Number,
+    default: 0,
+  },
   
   createdAt: {
     type: Date,
@@ -152,7 +181,7 @@ bookingSchema.pre('save', async function(next) {
 
 // Index for faster queries
 bookingSchema.index({ customer: 1, createdAt: -1 });
-bookingSchema.index({ bookingReference: 1 });
+// bookingReference already has unique: true, no need for separate index
 bookingSchema.index({ status: 1 });
 bookingSchema.index({ paymentStatus: 1 });
 

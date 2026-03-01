@@ -1,0 +1,364 @@
+/* ========================================
+   COMPREHENSIVE MOBILE RESPONSIVE STYLES
+   For RideSerene - All Pages & Components
+   ======================================== */
+
+/* Base Mobile Styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Container & Layout */
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Main Content Area */
+main {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* Forms - Mobile Optimization */
+@media (max-width: 768px) {
+  form {
+    width: 100%;
+  }
+
+  .form-group {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="time"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100% !important;
+    min-height: 44px;
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 0.75rem;
+  }
+
+  button[type="submit"],
+  .btn-primary,
+  .btn-submit {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+/* Grid Layouts - Mobile Stack */
+@media (max-width: 768px) {
+  .grid,
+  .grid-2,
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+
+  .flex-row {
+    flex-direction: column;
+  }
+
+  .flex-row > * {
+    width: 100%;
+  }
+}
+
+/* Cards - Mobile Optimization */
+@media (max-width: 768px) {
+  .card,
+  .service-card,
+  .feature-card {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Modals - Mobile Full Screen */
+@media (max-width: 768px) {
+  .modal,
+  .modal-content,
+  .modal-overlay {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .modal-content {
+    padding: 1rem !important;
+  }
+}
+
+/* Tables - Mobile Scroll */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody {
+    display: block;
+  }
+
+  tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.75rem;
+  }
+
+  td {
+    display: block;
+    text-align: right;
+    padding: 0.5rem 0;
+    border: none;
+  }
+
+  td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: 600;
+    color: #6c757d;
+  }
+}
+
+/* Images - Responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Buttons - Touch Friendly */
+@media (max-width: 768px) {
+  button,
+  .btn,
+  a.btn {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    touch-action: manipulation;
+  }
+
+  .btn-small {
+    min-height: 36px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Navigation - Mobile Menu */
+@media (max-width: 992px) {
+  .nav,
+  .navbar {
+    flex-direction: column;
+  }
+
+  .nav-item {
+    width: 100%;
+  }
+
+  .nav-link {
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+  }
+}
+
+/* Typography - Mobile Scaling */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.75rem !important;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+    line-height: 1.3;
+  }
+
+  h4 {
+    font-size: 1.1rem !important;
+  }
+
+  p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  h2 {
+    font-size: 1.25rem !important;
+  }
+
+  h3 {
+    font-size: 1.1rem !important;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Spacing - Mobile Reduction */
+@media (max-width: 768px) {
+  .section {
+    padding: 2rem 0;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 1.5rem 0;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Prevent Horizontal Scroll */
+@media (max-width: 768px) {
+  body,
+  html {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  * {
+    max-width: 100%;
+  }
+}
+
+/* Touch Targets */
+@media (max-width: 768px) {
+  a,
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Remove hover effects on mobile */
+@media (hover: none) and (pointer: coarse) {
+  *:hover {
+    /* Disable hover effects on touch devices */
+  }
+}
+
+/* Landscape Orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero {
+    min-height: auto;
+  }
+
+  .modal-content {
+    max-height: 90vh;
+  }
+}
+
+/* Utility Classes */
+.mobile-hidden {
+  display: none !important;
+}
+
+.desktop-hidden {
+  display: block !important;
+}
+
+@media (min-width: 769px) {
+  .mobile-hidden {
+    display: block !important;
+  }
+
+  .desktop-hidden {
+    display: none !important;
+  }
+}
+
+/* Full Width on Mobile */
+@media (max-width: 768px) {
+  .full-width-mobile {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}

@@ -252,7 +252,7 @@ const EventsPage = () => {
             <div className="events-global-text">
               <h2>Our global reach</h2>
               <p>
-                Sher Khan Event Services provides event organizers provides consistent and reliable service in over 50 countries. Whether it's over a weekend conference or a week-long festival, we've planned and flawlessly implemented sales conferences, incentive, corporate events and PR/PR charging cabins and PR/PR.
+                Rideserene Event Services provides event organizers provides consistent and reliable service in over 50 countries. Whether it's over a weekend conference or a week-long festival, we've planned and flawlessly implemented sales conferences, incentive, corporate events and PR/PR charging cabins and PR/PR.
               </p>
               <p>
                 Chauffeurs are vetted, licensed and have multiple badges (additional training including defensive driving, etiquette, and language skills), and English proficiency is a must. We employ best-in-class technology, communication tools to make efficient ride-on-service event chauffeur every-service and always every-event reservation fully on-point always within budget.
@@ -270,7 +270,7 @@ const EventsPage = () => {
         <div className="events-container">
           <blockquote className="events-testimonial">
             <p>
-              "Once you've experienced the Blacklane service, there's no reason to look elsewhere. You're looked after from start to finish."
+              "Once you've experienced the Rideserene service, there's no reason to look elsewhere. You're looked after from start to finish."
             </p>
             <cite>- Laura Morris, Travel Counsellors</cite>
           </blockquote>
@@ -283,7 +283,7 @@ const EventsPage = () => {
           <div className="events-form-wrapper">
             <h2>Contact our Events Team</h2>
             <p className="events-form-intro">
-              Submit your event-related queries and our Global Events Team will be in touch. To arrange a booking request, email <a href="mailto:events@example.com">events@example.com</a>
+              Submit your event-related queries and our Global Events Team will be in touch. To arrange a booking request, email <a href="mailto:events@example.com">Rideserene@gmail.com</a>
             </p>
             <form onSubmit={handleSubmit} className="events-form">
               <div className="events-form-row">

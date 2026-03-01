@@ -2,10 +2,20 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 main {
   flex: 1;
+  width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 /* Additional global styles */
@@ -16,4 +26,5 @@ main {
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }

@@ -1,6 +1,8 @@
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const Chauffeur = require('../models/Chauffeur');
+const { sendPasswordResetEmail } = require('../utils/email');
 
 // Generate JWT token
 const generateToken = (id) => {
@@ -14,6 +16,15 @@ const generateToken = (id) => {
 // @access  Public
 exports.register = async (req, res) => {
   try {
+    // Validate request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ 
+        success: false, 
+        errors: errors.array() 
+      });
+    }
+
     const {
       firstName,
       lastName,
@@ -27,6 +38,7 @@ exports.register = async (req, res) => {
       requirementsAccepted,
       profilePicture,
       driverLicense,
+      chauffeurLicense,
       identityCard,
       vehicle,
       company,
@@ -62,21 +74,19 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Validate vehicle year
+    // Validate vehicle year (only check that it's not in the future)
     const currentYear = new Date().getFullYear();
-    if (vehicle.year < currentYear - 4 || vehicle.year > currentYear) {
+    if (vehicle.year > currentYear) {
       return res.status(400).json({
         success: false,
-        message: 'Vehicle must be no more than 4 years old',
+        message: 'Vehicle year cannot be in the future',
       });
     }
 
-    // Validate company documents
-    if (!company || !company.commercialRegistration || !company.fleetInsuranceAgreement || 
-        !company.vatRegistrationCertificate || !company.operatingPermit) {
+    if (!driverLicense || !chauffeurLicense) {
       return res.status(400).json({
         success: false,
-        message: 'Please upload all required company documents',
+        message: 'Both driver license and chauffeur license (second license) are required. Both must be valid and active.',
       });
     }
 
@@ -111,6 +121,7 @@ exports.register = async (req, res) => {
       requirementsAccepted,
       profilePicture,
       driverLicense,
+      chauffeurLicense,
       identityCard,
       vehicle: {
         model: vehicle.model,
@@ -121,12 +132,14 @@ exports.register = async (req, res) => {
         insuranceCertificate: vehicle.insuranceCertificate,
         vehiclePhoto: vehicle.vehiclePhoto,
       },
-      company: {
-        commercialRegistration: company.commercialRegistration,
-        fleetInsuranceAgreement: company.fleetInsuranceAgreement,
-        vatRegistrationCertificate: company.vatRegistrationCertificate,
-        operatingPermit: company.operatingPermit,
-      },
+      ...(company && {
+        company: {
+          commercialRegistration: company.commercialRegistration,
+          fleetInsuranceAgreement: company.fleetInsuranceAgreement,
+          vatRegistrationCertificate: company.vatRegistrationCertificate,
+          operatingPermit: company.operatingPermit,
+        },
+      }),
       status: 'pending',
     });
 
@@ -164,6 +177,15 @@ exports.register = async (req, res) => {
 // @access  Public
 exports.login = async (req, res) => {
   try {
+    // Validate request
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ 
+        success: false, 
+        errors: errors.array() 
+      });
+    }
+
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -173,8 +195,10 @@ exports.login = async (req, res) => {
       });
     }
 
+    const emailNormalized = String(email).trim().toLowerCase();
+
     // Check if chauffeur exists
-    const chauffeur = await Chauffeur.findOne({ email }).select('+password');
+    const chauffeur = await Chauffeur.findOne({ email: emailNormalized }).select('+password');
     if (!chauffeur) {
       return res.status(401).json({
         success: false,
@@ -221,9 +245,11 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Update last login
-    chauffeur.lastLogin = Date.now();
-    await chauffeur.save();
+    // Update last login (direct update to avoid re-running full schema validation on save)
+    await Chauffeur.updateOne(
+      { _id: chauffeur._id },
+      { $set: { lastLogin: new Date() } }
+    );
 
     // Generate token
     const token = generateToken(chauffeur._id);
@@ -255,6 +281,93 @@ exports.login = async (req, res) => {
   }
 };
 
+// @desc    Forgot password – send reset link to chauffeur email
+// @route   POST /api/chauffeur/forgot-password
+// @access  Public
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Please provide your email address.' });
+    }
+
+    const chauffeur = await Chauffeur.findOne({ email: String(email).trim().toLowerCase() });
+    if (!chauffeur) {
+      return res.status(200).json({
+        success: true,
+        message: 'If an account exists with this email, you will receive a password reset link shortly.',
+      });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    chauffeur.resetPasswordToken = resetToken;
+    chauffeur.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+    await chauffeur.save();
+
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const resetUrl = `${frontendUrl}/chauffeur-reset-password?token=${resetToken}`;
+    await sendPasswordResetEmail({ to: chauffeur.email, resetUrl, isChauffeur: true });
+
+    if (process.env.NODE_ENV === 'development' && !process.env.SMTP_HOST) {
+      console.log('📧 [DEV] Chauffeur password reset link:', resetUrl);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'If an account exists with this email, you will receive a password reset link shortly.',
+    });
+  } catch (error) {
+    console.error('Chauffeur forgot password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error processing request. Please try again.',
+    });
+  }
+};
+
+// @desc    Reset password using token from email link
+// @route   POST /api/chauffeur/reset-password
+// @access  Public
+exports.resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    if (!token || !newPassword) {
+      return res.status(400).json({ success: false, message: 'Token and new password are required.' });
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters.' });
+    }
+
+    const chauffeur = await Chauffeur.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    }).select('+password');
+
+    if (!chauffeur) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired reset link. Please request a new password reset.',
+      });
+    }
+
+    chauffeur.password = newPassword;
+    chauffeur.resetPasswordToken = undefined;
+    chauffeur.resetPasswordExpires = undefined;
+    await chauffeur.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successfully. You can now sign in with your new password.',
+    });
+  } catch (error) {
+    console.error('Chauffeur reset password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error resetting password. Please try again.',
+    });
+  }
+};
+
 // @desc    Get chauffeur profile
 // @route   GET /api/chauffeur/profile
 // @access  Private
@@ -277,16 +390,21 @@ exports.getProfile = async (req, res) => {
         lastName: chauffeur.lastName,
         email: chauffeur.email,
         phone: chauffeur.phone,
+        countryCode: chauffeur.countryCode,
         country: chauffeur.country,
         city: chauffeur.city,
         profilePicture: chauffeur.profilePicture,
         driverLicense: chauffeur.driverLicense,
+        chauffeurLicense: chauffeur.chauffeurLicense,
         identityCard: chauffeur.identityCard,
         vehicle: chauffeur.vehicle,
         company: chauffeur.company,
         status: chauffeur.status,
         isActive: chauffeur.isActive,
         isVerified: chauffeur.isVerified,
+        isOnline: chauffeur.isOnline,
+        rating: chauffeur.rating,
+        totalRatings: chauffeur.totalRatings,
         createdAt: chauffeur.createdAt,
         approvedAt: chauffeur.approvedAt,
         rejectionReason: chauffeur.rejectionReason,
@@ -322,6 +440,13 @@ exports.updateProfile = async (req, res) => {
     if (lastName) chauffeur.lastName = lastName;
     if (phone) chauffeur.phone = phone;
 
+    // Handle profile picture upload if file is provided
+    if (req.file) {
+      // Construct the file path relative to uploads directory
+      chauffeur.profilePicture = req.file.path.replace(/\\/g, '/');
+      console.log('Profile picture updated:', chauffeur.profilePicture);
+    }
+
     await chauffeur.save();
 
     res.status(200).json({
@@ -333,6 +458,7 @@ exports.updateProfile = async (req, res) => {
         lastName: chauffeur.lastName,
         email: chauffeur.email,
         phone: chauffeur.phone,
+        profilePicture: chauffeur.profilePicture,
       },
     });
   } catch (error) {
@@ -340,6 +466,7 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error updating profile',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 };

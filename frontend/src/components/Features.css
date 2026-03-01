@@ -54,19 +54,39 @@
 
 @media (max-width: 480px) {
   .features-grid {
-    gap: 1.5rem;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
   }
 
   .feature-card {
-    padding: 1.25rem;
+    padding: 1rem;
+    margin: 0 0.5rem;
   }
 
   .feature-title {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
   }
 
   .feature-description {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .feature-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 320px) {
+  .feature-card {
+    padding: 0.875rem;
+    margin: 0 0.25rem;
+  }
+
+  .feature-title {
+    font-size: 1rem;
   }
 }
 

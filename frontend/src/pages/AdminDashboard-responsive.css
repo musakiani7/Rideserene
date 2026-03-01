@@ -1,0 +1,406 @@
+/* Admin Dashboard Responsive Styles */
+
+/* Force responsive behavior for inline styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Viewport is set in HTML meta tag instead of CSS */
+
+/* Tablet and below - 992px */
+@media (max-width: 992px) {
+  /* Container padding */
+  .admin-content > div {
+    padding: 1.5rem !important;
+  }
+  
+  /* Stats cards grid - force 2 columns on tablet */
+  .admin-content > div > div:nth-child(2) {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+  
+  /* Search bar container */
+  .admin-content > div > div:nth-child(3) {
+    padding: 1rem !important;
+  }
+  
+  /* Force flex items to wrap */
+  .admin-content > div > div:nth-child(3) > * {
+    flex: 1 1 100% !important;
+    min-width: 200px !important;
+  }
+  
+  /* Prevent horizontal overflow */
+  .admin-content,
+  .admin-main {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+}
+
+/* Mobile landscape and below - 768px */
+@media (max-width: 768px) {
+  /* Reduce font sizes */
+  h2 {
+    font-size: 1.5rem !important;
+  }
+  
+  /* Stack cards single column */
+  [style*="gridTemplateColumns: '1fr 1fr'"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Reduce padding on containers */
+  [style*="padding: '2rem'"] {
+    padding: 1.5rem !important;
+  }
+  
+  /* Table cells - reduce padding */
+  td, th {
+    padding: 0.75rem 0.5rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Hide less important table columns on mobile */
+  table th:nth-child(3),
+  table td:nth-child(3),
+  table th:nth-child(5),
+  table td:nth-child(5) {
+    display: none;
+  }
+  
+  /* Make buttons smaller */
+  button {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Icons should be smaller */
+  svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
+
+/* Mobile portrait - 576px */
+@media (max-width: 576px) {
+  /* Further reduce heading sizes */
+  h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  h3 {
+    font-size: 1.1rem !important;
+  }
+  
+  h4 {
+    font-size: 1rem !important;
+  }
+  
+  /* Single column for all grids */
+  [style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Reduce all padding */
+  [style*="padding: '1.5rem'"] {
+    padding: 1rem !important;
+  }
+  
+  [style*="padding: '1rem'"] {
+    padding: 0.75rem !important;
+  }
+  
+  [style*="padding: '2rem'"] {
+    padding: 1rem !important;
+  }
+  
+  /* Make stat cards more compact */
+  [style*="fontSize: '2.5rem'"] {
+    font-size: 1.75rem !important;
+  }
+  
+  [style*="fontSize: '1.75rem'"] {
+    font-size: 1.25rem !important;
+  }
+  
+  [style*="fontSize: '1.5rem'"] {
+    font-size: 1.1rem !important;
+  }
+  
+  /* Table wrapper - enable horizontal scroll */
+  [style*="overflowX: 'auto'"] > table {
+    min-width: 800px; /* Maintain minimum width for table */
+  }
+  
+  /* Smooth scrolling on mobile - modern browsers handle this automatically */
+  div[style*="overflowX: 'auto'"] {
+    overflow-x: auto;
+  }
+  
+  /* Modal adjustments */
+  [style*="maxWidth: '900px'"],
+  [style*="maxWidth: '800px'"] {
+    max-width: calc(100% - 1rem) !important;
+    margin: 0.5rem !important;
+  }
+  
+  [style*="borderRadius: '16px'"] {
+    border-radius: 12px !important;
+  }
+  
+  /* Modal header icons */
+  [style*="fontSize: '1.75rem'"] svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  
+  /* Modal body padding */
+  [style*="maxHeight: '90vh'"] > div {
+    padding: 1rem !important;
+  }
+  
+  /* Search input adjustments */
+  input::placeholder {
+    font-size: 0.85rem !important;
+  }
+  
+  input[type="text"],
+  select {
+    font-size: 0.9rem !important;
+    padding: 0.75rem 1rem 0.75rem 2.5rem !important;
+  }
+  
+  /* Compact filter bar */
+  [style*="flexWrap: 'wrap'"] {
+    gap: 0.75rem !important;
+  }
+  
+  /* Hide button text, keep icons */
+  button[style*="gap: '0.5rem'"] > *:last-child {
+    display: none;
+  }
+  
+  button svg {
+    margin: 0 !important;
+  }
+  
+  /* Smaller icons in buttons */
+  button svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  
+  /* Location text truncation */
+  [style*="maxWidth: '220px'"] {
+    max-width: 150px !important;
+  }
+  
+  /* Status badges */
+  span[style*="borderRadius: '20px'"] {
+    padding: 0.3rem 0.6rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  /* Header with icon */
+  h2[style*="display: 'flex'"] {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+  }
+  
+  h2 p {
+    margin-left: 0 !important;
+  }
+}
+
+/* Extra small devices - 400px */
+@media (max-width: 400px) {
+  /* Even smaller headings */
+  h2 {
+    font-size: 1.1rem !important;
+  }
+  
+  /* Compact spacing */
+  [style*="gap: '1.5rem'"],
+  [style*="gap: '1rem'"] {
+    gap: 0.75rem !important;
+  }
+  
+  /* Smaller stat numbers */
+  [style*="fontSize: '1.75rem'"] {
+    font-size: 1.5rem !important;
+  }
+  
+  /* Hide decorative elements */
+  [style*="position: 'absolute'"][style*="borderRadius: '50%'"] {
+    display: none !important;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 600px) and (orientation: landscape) {
+  /* Make modal scrollable */
+  [style*="maxHeight: '90vh'"] {
+    max-height: 85vh !important;
+  }
+  
+  /* Reduce vertical padding */
+  [style*="padding: '2rem'"] {
+    padding: 1rem !important;
+  }
+}
+
+/* Stats grid responsiveness */
+.stats-grid {
+  grid-template-columns: repeat(5, 1fr) !important;
+}
+
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .btn-text {
+    display: none;
+  }
+  
+  .clear-btn {
+    padding: 0.65rem !important;
+  }
+  
+  /* Table scroll indicator */
+  div[style*="overflowX: 'auto'"] {
+    position: relative;
+  }
+  
+  div[style*="overflowX: 'auto'"]::after {
+    content: '← Scroll →';
+    position: sticky;
+    right: 0;
+    bottom: 0;
+    background: rgba(212, 175, 55, 0.9);
+    color: #1a1a1a;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 8px 0 0 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Force all flex containers to column on very small screens */
+  [style*="display: 'flex'"][style*="flexWrap: 'wrap'"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  
+  [style*="flex: '1 1 auto'"],
+  [style*="flex: '0 1 auto'"],
+  [style*="flex: '0 0 auto'"] {
+    flex: 1 1 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Compact table cells even more */
+  table td,
+  table th {
+    padding: 0.5rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  /* Reduce icon sizes in table */
+  table td svg,
+  table th svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  
+  /* Make text wrap properly */
+  td, th, div, span, p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Ensure no element exceeds viewport */
+  * {
+    max-width: 100vw;
+  }
+}
+
+/* Print styles */
+@media print {
+  .admin-sidebar,
+  .mobile-menu-toggle,
+  button {
+    display: none !important;
+  }
+  
+  .admin-main {
+    margin-left: 0 !important;
+  }
+  
+  table {
+    page-break-inside: avoid;
+  }
+}
+
+/* Custom scrollbar for bookings grid */
+.bookings-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bookings-grid::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+.bookings-grid::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 10px;
+}
+
+.bookings-grid::-webkit-scrollbar-thumb:hover {
+  background: #c19b2f;
+}
+
+/* Note: scrollbar-width and scrollbar-color require Chrome 121+ and are not supported in Safari */
+
+/* Webkit browsers (Chrome, Safari, Edge) - fallback for older versions */
+.bookings-grid::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.bookings-grid::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+.bookings-grid::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 4px;
+}
+
+.bookings-grid::-webkit-scrollbar-thumb:hover {
+  background: #c49a2d;
+}

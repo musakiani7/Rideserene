@@ -1,6 +1,8 @@
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const Customer = require('../models/Customer');
+const { sendPasswordResetEmail } = require('../utils/email');
 
 // Generate JWT token
 const generateToken = (id) => {
@@ -127,6 +129,93 @@ exports.login = async (req, res) => {
       success: false, 
       message: 'Error logging in',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
+// @desc    Forgot password – send reset link to customer email
+// @route   POST /api/auth/forgot-password
+// @access  Public
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Please provide your email address.' });
+    }
+
+    const customer = await Customer.findOne({ email: String(email).trim().toLowerCase() });
+    if (!customer) {
+      return res.status(200).json({
+        success: true,
+        message: 'If an account exists with this email, you will receive a password reset link shortly.',
+      });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    customer.resetPasswordToken = resetToken;
+    customer.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+    await customer.save();
+
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const resetUrl = `${frontendUrl}/reset-password?token=${resetToken}`;
+    await sendPasswordResetEmail({ to: customer.email, resetUrl, isChauffeur: false });
+
+    if (process.env.NODE_ENV === 'development' && !process.env.SMTP_HOST) {
+      console.log('📧 [DEV] Password reset link:', resetUrl);
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'If an account exists with this email, you will receive a password reset link shortly.',
+    });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error processing request. Please try again.',
+    });
+  }
+};
+
+// @desc    Reset password using token from email link
+// @route   POST /api/auth/reset-password
+// @access  Public
+exports.resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    if (!token || !newPassword) {
+      return res.status(400).json({ success: false, message: 'Token and new password are required.' });
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters.' });
+    }
+
+    const customer = await Customer.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() },
+    }).select('+password');
+
+    if (!customer) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired reset link. Please request a new password reset.',
+      });
+    }
+
+    customer.password = newPassword;
+    customer.resetPasswordToken = undefined;
+    customer.resetPasswordExpires = undefined;
+    await customer.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successfully. You can now sign in with your new password.',
+    });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error resetting password. Please try again.',
     });
   }
 };

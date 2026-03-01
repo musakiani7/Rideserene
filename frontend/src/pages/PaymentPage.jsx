@@ -1,16 +1,23 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CreditCard, Lock, Shield, Check, Info, Calendar, MapPin } from 'lucide-react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import StripePaymentForm from '../components/StripePaymentForm';
 import './PaymentPage.css';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const PaymentPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const booking = useMemo(() => location.state?.booking || {}, [location.state]);
 
-  const [paymentMethod, setPaymentMethod] = useState('credit_card');
+  const [paymentMethod, setPaymentMethod] = useState('stripe');
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState('');
+  const [clientSecret, setClientSecret] = useState('');
+  const [paymentIntentId, setPaymentIntentId] = useState('');
   
   const [cardData, setCardData] = useState({
     cardNumber: '',
@@ -27,17 +34,60 @@ const PaymentPage = () => {
     country: 'United States',
   });
 
-  // Check authentication
+  // Check authentication and create payment intent for Stripe
   useEffect(() => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (!token) {
       navigate('/login', { state: { booking } });
+      return;
     }
     
     if (!booking.vehicle) {
       navigate('/');
+      return;
     }
-  }, [navigate, booking]);
+
+    // Create Stripe payment intent when component mounts
+    const createPaymentIntent = async () => {
+      if (paymentMethod === 'stripe' && !clientSecret) {
+        const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        
+        try {
+          const response = await fetch(`${API_BASE}/api/stripe/create-payment-intent`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              amount: booking.vehicle.price,
+              currency: 'usd',
+              bookingDetails: {
+                from: booking.from,
+                to: booking.to,
+                date: booking.date,
+                time: booking.time,
+              }
+            }),
+          });
+
+          const data = await response.json();
+          
+          if (data.success) {
+            setClientSecret(data.clientSecret);
+            setPaymentIntentId(data.paymentIntentId);
+          } else {
+            setError('Failed to initialize payment. Please try again.');
+          }
+        } catch (err) {
+          console.error('Error creating payment intent:', err);
+          setError('Failed to initialize payment. Please try again.');
+        }
+      }
+    };
+
+    createPaymentIntent();
+  }, [navigate, booking, paymentMethod, clientSecret]);
 
   const handleCardInputChange = (e) => {
     let { name, value } = e.target;
@@ -65,28 +115,12 @@ const PaymentPage = () => {
     setBillingAddress({ ...billingAddress, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsProcessing(true);
-    setError('');
-
+  const handleStripePaymentSuccess = async (paymentIntent) => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-    console.log('Starting payment process...');
-    console.log('Token exists:', !!token);
-    console.log('API Base:', API_BASE);
-    console.log('Booking data:', booking);
-
-    if (!token) {
-      setError('You must be logged in to complete payment. Redirecting...');
-      setTimeout(() => navigate('/login', { state: { booking } }), 2000);
-      setIsProcessing(false);
-      return;
-    }
-
     try {
-      // First, create the booking
+      // Create the booking
       const bookingResponse = await fetch(`${API_BASE}/api/bookings`, {
         method: 'POST',
         headers: { 
@@ -128,19 +162,121 @@ const PaymentPage = () => {
       });
 
       const bookingData = await bookingResponse.json();
-      console.log('Booking API Response:', bookingResponse.status, bookingData);
 
       if (!bookingResponse.ok) {
-        const errorMsg = bookingData.message || bookingData.error || 'Failed to create booking';
-        console.error('Booking creation failed:', bookingData);
-        setError(errorMsg);
+        setError(bookingData.message || 'Failed to create booking');
         setIsProcessing(false);
         return;
       }
 
-      console.log('Booking created successfully:', bookingData.booking);
+      // Update payment status with Stripe payment intent
+      const paymentResponse = await fetch(`${API_BASE}/api/bookings/${bookingData.booking.id}/payment`, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          paymentStatus: 'completed',
+          paymentMethod: 'stripe',
+          transactionId: paymentIntent.id,
+          paymentIntentId: paymentIntent.id,
+        }),
+      });
 
-      // Simulate payment processing
+      const paymentData = await paymentResponse.json();
+
+      if (!paymentResponse.ok) {
+        setError(paymentData.message || 'Payment update failed');
+        setIsProcessing(false);
+        return;
+      }
+
+      // Success! Navigate to confirmation
+      navigate('/checkout', { 
+        state: { 
+          booking: {
+            ...booking,
+            bookingReference: bookingData.booking.bookingReference,
+            bookingId: bookingData.booking.id,
+            paymentStatus: 'completed',
+            paymentIntentId: paymentIntent.id,
+          }
+        }
+      });
+    } catch (err) {
+      console.error('Booking error:', err);
+      setError('Failed to complete booking. Please contact support.');
+      setIsProcessing(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsProcessing(true);
+    setError('');
+
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+    if (!token) {
+      setError('You must be logged in to complete payment. Redirecting...');
+      setTimeout(() => navigate('/login', { state: { booking } }), 2000);
+      setIsProcessing(false);
+      return;
+    }
+
+    try {
+      // Create the booking
+      const bookingResponse = await fetch(`${API_BASE}/api/bookings`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          rideType: booking.rideType,
+          pickupLocation: {
+            address: booking.from,
+            placeId: booking.fromPlaceId,
+            coordinates: {
+              lat: booking.fromLat,
+              lng: booking.fromLng,
+            },
+          },
+          dropoffLocation: booking.to ? {
+            address: booking.to,
+            placeId: booking.toPlaceId,
+            coordinates: {
+              lat: booking.toLat,
+              lng: booking.toLng,
+            },
+          } : undefined,
+          pickupDate: new Date(booking.date).toISOString(),
+          pickupTime: booking.time,
+          duration: booking.duration,
+          vehicleClass: {
+            id: booking.vehicle.id,
+            name: booking.vehicle.name,
+            vehicle: booking.vehicle.vehicle,
+            passengers: booking.vehicle.passengers,
+            luggage: booking.vehicle.luggage,
+          },
+          passengerInfo: booking.passengerInfo,
+          basePrice: booking.vehicle.price,
+          totalPrice: booking.vehicle.price,
+        }),
+      });
+
+      const bookingData = await bookingResponse.json();
+
+      if (!bookingResponse.ok) {
+        setError(bookingData.message || 'Failed to create booking');
+        setIsProcessing(false);
+        return;
+      }
+
+      // Simulate payment processing for non-Stripe methods
       await new Promise(resolve => setTimeout(resolve, 2000));
 
       // Update payment status
@@ -178,9 +314,7 @@ const PaymentPage = () => {
       });
     } catch (err) {
       console.error('Payment error:', err);
-      // More detailed error message
-      const errorMessage = err.message || 'Unable to process payment. Please try again.';
-      setError(`Error: ${errorMessage}. Please check console for details.`);
+      setError('Unable to process payment. Please try again.');
       setIsProcessing(false);
     }
   };
@@ -310,6 +444,18 @@ const PaymentPage = () => {
             <form onSubmit={handleSubmit} className="payment-form">
               {/* Payment Method Selection */}
               <div className="payment-methods">
+                <label className={`payment-method-option ${paymentMethod === 'stripe' ? 'active' : ''}`}>
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="stripe"
+                    checked={paymentMethod === 'stripe'}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                  />
+                  <CreditCard size={24} />
+                  <span>Stripe Payment</span>
+                </label>
+
                 <label className={`payment-method-option ${paymentMethod === 'credit_card' ? 'active' : ''}`}>
                   <input
                     type="radio"
@@ -333,6 +479,21 @@ const PaymentPage = () => {
                   <span style={{fontSize: '20px', fontWeight: 'bold', color: '#003087'}}>PayPal</span>
                 </label>
               </div>
+
+              {paymentMethod === 'stripe' && clientSecret && (
+                <div className="form-section">
+                  <h3>Secure Payment with Stripe</h3>
+                  <Elements stripe={stripePromise} options={{ clientSecret }}>
+                    <StripePaymentForm 
+                      amount={booking.vehicle?.price}
+                      onSuccess={handleStripePaymentSuccess}
+                      onError={(error) => setError(error.message)}
+                      isProcessing={isProcessing}
+                      setIsProcessing={setIsProcessing}
+                    />
+                  </Elements>
+                </div>
+              )}
 
               {paymentMethod === 'credit_card' && (
                 <>
@@ -491,37 +652,52 @@ const PaymentPage = () => {
               <div className="terms-section">
                 <label className="checkbox-label">
                   <input type="checkbox" required />
-                  <span>I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a></span>
+                  <span>I agree to the <a href="/terms" target="_blank" rel="noopener noreferrer">Terms and Conditions</a> and <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></span>
                 </label>
               </div>
 
-              <div className="form-actions">
-                <button 
-                  type="button" 
-                  className="btn-back"
-                  onClick={() => navigate(-1)}
-                  disabled={isProcessing}
-                >
-                  Back
-                </button>
-                <button 
-                  type="submit" 
-                  className="btn-pay"
-                  disabled={isProcessing}
-                >
-                  {isProcessing ? (
-                    <>
-                      <span className="spinner"></span>
-                      Processing...
-                    </>
-                  ) : (
-                    <>
-                      <Lock size={18} />
-                      Pay US${booking.vehicle?.price?.toFixed(2)}
-                    </>
-                  )}
-                </button>
-              </div>
+              {paymentMethod !== 'stripe' && (
+                <div className="form-actions">
+                  <button 
+                    type="button" 
+                    className="btn-back"
+                    onClick={() => navigate(-1)}
+                    disabled={isProcessing}
+                  >
+                    Back
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="btn-pay"
+                    disabled={isProcessing}
+                  >
+                    {isProcessing ? (
+                      <>
+                        <span className="spinner"></span>
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <Lock size={18} />
+                        Pay US${booking.vehicle?.price?.toFixed(2)}
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
+
+              {paymentMethod === 'stripe' && (
+                <div className="form-actions">
+                  <button 
+                    type="button" 
+                    className="btn-back"
+                    onClick={() => navigate(-1)}
+                    disabled={isProcessing}
+                  >
+                    Back
+                  </button>
+                </div>
+              )}
             </form>
           </div>
         </div>

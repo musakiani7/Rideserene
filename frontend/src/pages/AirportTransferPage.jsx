@@ -356,13 +356,13 @@ const AirportTransferPage = () => {
             <div className="global-cities-text">
               <h2>Airport transfer in global cities</h2>
               <p>
-                Experience your Blacklane in cities worldwide. Rely on a safe and professional 
-                airport transfer in over 600 cities across the globe with Blacklane: punctual 
+                Experience your Rideserene in cities worldwide. Rely on a safe and professional 
+                airport transfer in over 600 cities across the globe with Rideserene: punctual 
                 arrivals, reliable and luxurious vehicles, and helpful customer support are 
                 hallmarks of the experience. Our chauffeurs stay on top of the details of your 
                 flight, so they can be ready to collect you after a delay or to find some extra 
                 time if you land ahead of schedule. Whether you use public transport maps in 
-                Shanghai with local connections. Blacklane offers a service that will take you 
+                Shanghai with local connections. Rideserene offers a service that will take you 
                 to your destination directly, from the airport, no matter your destination, 
                 and regardless of the time of day. We offer transfers available at any airport 
                 in any delivery schedule as you control. They've hand-picked and locally 
@@ -389,10 +389,10 @@ const AirportTransferPage = () => {
               <p>
                 Discover why our acclaimed airport service offers the very highest possible 
                 standards for all passengers. Whether you're stepping out of LAX or Guarulhos 
-                airport into the heart of the city, the arrival of a Blacklane chauffeur is 
+                airport into the heart of the city, the arrival of a Rideserene chauffeur is 
                 the start of an exceptional customer experience. We offer convenient and 
                 comfortable door-to-door travel, plus the flexibility to book with multiple 
-                stops enroute to your hotel with family or colleagues if Blacklane Business. 
+                stops enroute to your hotel with family or colleagues if Rideserene Business. 
                 You can be chauffeured by to-class people, together with guests at every lab 
                 arrival and departure point worldwide. Punctuality, class, and comfort—to 
                 experience of light and comfort - a great idea for special occasions.
@@ -409,15 +409,15 @@ const AirportTransferPage = () => {
             <div className="shuttle-booking-text">
               <h2>Airport shuttle booking</h2>
               <p>
-                Booking a Blacklane is incredibly simple – just tap the app, or a few seconds 
+                Booking a Rideserene is incredibly simple just tap the app, or a few seconds 
                 on our website. We believe that travel should be as painless as possible, and 
-                so shouldn't Blacklane searches, or use the smartphone app to bypass anti 
+                so shouldn't Rideserene searches, or use the smartphone app to bypass anti 
                 rental desks. The necessary documents will provide this on the website and 
                 there's even a step-by-step guide. Our prices are fair and transparent; what 
                 you see includes the calculated fare and payment details, you will receive an 
-                email of confirmation along your electronically. Blacklane picks itself on 
+                email of confirmation along your electronically. Rideserene picks itself on 
                 transparency; which means you know in advance of your journey precisely where 
-                your chauffeur will be to the place you stay – it great way to kick off your 
+                your chauffeur will be to the place you stay it great way to kick off your 
                 journey.
               </p>
             </div>

@@ -1,0 +1,29 @@
+.services-page {
+  padding: 2rem 0 4rem;
+}
+
+.services-page-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  padding: 0 1rem;
+}
+
+.services-page-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-black);
+  margin: 0 0 0.5rem 0;
+}
+
+.services-page-header p {
+  font-size: 1rem;
+  color: var(--color-silver, #6c757d);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .services-page-header h1 {
+    font-size: 1.5rem;
+  }
+}

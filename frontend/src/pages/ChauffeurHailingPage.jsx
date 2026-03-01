@@ -6,7 +6,7 @@ const ChauffeurHailingPage = () => {
     {
       icon: <Smartphone size={32} />,
       title: 'Convenience',
-      description: 'Get a door-to-door chauffeured ride, right when you need with just a few taps in the Blacklane app.'
+      description: 'Get a door-to-door chauffeured ride, right when you need with just a few taps in the Ride Serene Website.'
     },
     {
       icon: <Car size={32} />,
@@ -56,7 +56,7 @@ const ChauffeurHailingPage = () => {
           <div className="app-download-content">
             <div className="app-download-text">
               <h2>Professional chauffeurs at your fingertips</h2>
-              <p>Download the Blacklane® Chauffeur Hailing™ app to hail chauffeurs on demand across Dubai.</p>
+              <p>Download the Rideserene® Chauffeur Hailing™ app to hail chauffeurs on demand across globe.</p>
               <div className="qr-badges-container">
                 <div className="qr-code-box">
                   <img src="https://images.unsplash.com/photo-1618060932014-4deda4932554?w=400&q=80" alt="QR Code" />
@@ -99,11 +99,11 @@ const ChauffeurHailingPage = () => {
             <div className="on-demand-text">
               <h2>Convenient on-demand rides within minutes</h2>
               <p>
-                When you need a safe way to get around the city, think Blacklane's Chauffeur 
+                When you need a safe way to get around the city, think Rideserene Chauffeur 
                 Hailing™. You can book the top-of-the-line service you know and love, for 
                 immediate pickup in cities listed below. The perfect combination of 
                 traditional chauffeur service and ride-hailing, chauffeurs are available in 
-                the new version of the Blacklane app® for iOS and Android.
+                the new version of the Rideserene app® for iOS and Android.
               </p>
               <button className="cta-btn">Get the app</button>
             </div>

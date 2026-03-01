@@ -8,18 +8,18 @@ const Features = () => {
   const features = [
     {
       icon: <Shield size={40} />,
-      title: t('features.safetyFirst.title'),
-      description: t('features.safetyFirst.desc')
+      title: t('Safety first'),
+      description: t('Travel confidently knowing your safety is our top priority. We handle every detail with care to make sure your journey is nothing short of exceptional')
     },
     {
       icon: <Car size={40} />,
-      title: t('features.privateTravel.title'),
-      description: t('features.privateTravel.desc')
+      title: t('Private travel solutions'),
+      description: t('Discover your one-stop travel shop: long-distance rides, one way or return, by the hour, airport transfers, and more.')
     },
     {
       icon: <Leaf size={40} />,
-      title: t('features.sustainableTravel.title'),
-      description: t('features.sustainableTravel.desc')
+      title: t('Sustainable travel'),
+      description: t('Breathe easy knowing all ride emissions are offset, as part of our global carbon offset program — the industry’s first.')
     }
   ];
 

@@ -38,6 +38,12 @@ const customerSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isBlocked: {
+    type: Boolean,
+    default: false,
+  },
+  blockReason: { type: String },
+  blockedAt: { type: Date },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -45,6 +51,31 @@ const customerSchema = new mongoose.Schema({
   lastLogin: {
     type: Date,
   },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
+  wallet: {
+    balance: {
+      type: Number,
+      default: 0,
+    },
+    currency: {
+      type: String,
+      default: 'USD',
+    },
+  },
+  preferences: {
+    defaultVehicleClass: String,
+    notifications: {
+      email: { type: Boolean, default: true },
+      sms: { type: Boolean, default: true },
+      push: { type: Boolean, default: true },
+    },
+    language: {
+      type: String,
+      default: 'en',
+    },
+  },
+  profileImage: String,
 });
 
 // Hash password before saving

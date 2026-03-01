@@ -37,12 +37,17 @@ const Hero = () => {
       alert('Please enter a destination (To).');
       return;
     }
+    if (rideType === 'by-hour' && !formData.to) {
+      alert('Please enter a drop-off location (To).');
+      return;
+    }
 
     // Build query string
     const params = new URLSearchParams();
     params.set('rideType', rideType);
     params.set('from', formData.from);
     if (rideType === 'one-way') params.set('to', formData.to);
+    if (rideType === 'by-hour' && formData.to) params.set('to', formData.to);
     if (formData.date) params.set('date', formData.date);
     if (formData.time) params.set('time', formData.time);
     if (rideType === 'by-hour') params.set('duration', formData.duration);
@@ -58,8 +63,8 @@ const Hero = () => {
     <section className="hero">
       <div className="hero-background">
         <div className="hero-image-overlay">
-          <h1 className="hero-title">{t('hero.title')}</h1>
-          <p className="hero-subtitle">{t('hero.subtitle')}</p>
+          <h1 className="hero-title">{t('Premium Chauffeur Services')}</h1>
+          <p className="hero-subtitle">{t('Ride Serene')}</p>
         </div>
       </div>
       
@@ -74,7 +79,7 @@ const Hero = () => {
                 >
                   <div className="card-content">
                     <ArrowRight size={24} />
-                    <span>{t('hero.oneWay')}</span>
+                    <span>{t('One Way')}</span>
                   </div>
                 </button>
                 <button
@@ -84,7 +89,7 @@ const Hero = () => {
                 >
                   <div className="card-content">
                     <Clock size={24} />
-                    <span>{t('hero.byTheHour')}</span>
+                    <span>{t('By The Hour')}</span>
                   </div>
                 </button>
               </div>
@@ -93,12 +98,12 @@ const Hero = () => {
                 <div className="form-group">
                   <label htmlFor="from">
                     <MapPin size={18} />
-                    {t('common.from')}
+                    {t('From')}
                   </label>
                   <AutocompleteInput
                     id="from"
                     name="from"
-                    placeholder={t('hero.pickupLocation')}
+                    placeholder="Pick up Location"
                     value={formData.from}
                     onChange={handleInputChange}
                     returnPlaceDetails={true}
@@ -119,12 +124,12 @@ const Hero = () => {
                   <div className="form-group">
                     <label htmlFor="to">
                       <MapPin size={18} />
-                      {t('common.to')}
+                      {t('To')}
                     </label>
                     <AutocompleteInput
                       id="to"
                       name="to"
-                      placeholder={t('hero.pickupLocation')}
+                      placeholder="airport, city, hotel"
                       value={formData.to}
                       onChange={handleInputChange}
                       returnPlaceDetails={true}
@@ -143,27 +148,81 @@ const Hero = () => {
 
                 {rideType === 'by-hour' && (
                   <div className="form-group">
-                    <label htmlFor="duration">
-                      <Clock size={18} />
-                      {t('common.duration')}
+                    <label className="to-field-label">
+                      <MapPin size={18} />
+                      {t('To')}
                     </label>
-                    <select
-                      id="duration"
-                      name="duration"
-                      value={formData.duration}
+                    <AutocompleteInput
+                      id="to-hourly"
+                      name="to"
+                      placeholder="airport, city, hotel"
+                      value={formData.to}
                       onChange={handleInputChange}
-                      required
-                    >
-                      <option value="1">1 {t('common.hours')}</option>
-                      <option value="2">2 {t('common.hours')}</option>
-                      <option value="3">3 {t('common.hours')}</option>
-                      <option value="4">4 {t('common.hours')}</option>
-                      <option value="5">5 {t('common.hours')}</option>
-                      <option value="6">6 {t('common.hours')}</option>
-                      <option value="8">8 {t('common.hours')}</option>
-                      <option value="12">12 {t('common.hours')}</option>
-                      <option value="24">24 {t('common.hours')}</option>
-                    </select>
+                      returnPlaceDetails={true}
+                      onSelect={({ prediction, details }) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          to: (details && details.formatted_address) || (prediction && prediction.description) || prev.to,
+                          toPlaceId: prediction?.place_id || prev.toPlaceId,
+                          toLat: details && details.geometry && details.geometry.location ? details.geometry.location.lat() : prev.toLat,
+                          toLng: details && details.geometry && details.geometry.location ? details.geometry.location.lng() : prev.toLng,
+                        }));
+                      }}
+                    />
+                  </div>
+                )}
+
+                {rideType === 'by-hour' && (
+                  <div className="form-group duration-group">
+                    <label className="duration-label">
+                      <Clock size={18} />
+                      {t('Duration')}
+                    </label>
+                    <div className="duration-counter">
+                      <button
+                        type="button"
+                        className="duration-counter-btn"
+                        onClick={() => setFormData((prev) => {
+                          const n = Math.max(1, (parseInt(prev.duration, 10) || 2) - 1);
+                          return { ...prev, duration: String(n) };
+                        })}
+                        aria-label="Decrease hours"
+                      >
+                        −
+                      </button>
+                      <div className="duration-counter-value">
+                        <input
+                          type="number"
+                          name="duration"
+                          min={1}
+                          max={24}
+                          value={formData.duration}
+                          onChange={(e) => {
+                            const v = e.target.value;
+                            if (v === '') {
+                              setFormData((prev) => ({ ...prev, duration: '1' }));
+                              return;
+                            }
+                            const n = Math.min(24, Math.max(1, parseInt(v, 10) || 1));
+                            setFormData((prev) => ({ ...prev, duration: String(n) }));
+                          }}
+                          className="duration-counter-input"
+                          aria-label="Duration in hours"
+                        />
+                        <span className="duration-counter-unit">hours</span>
+                      </div>
+                      <button
+                        type="button"
+                        className="duration-counter-btn"
+                        onClick={() => setFormData((prev) => {
+                          const n = Math.min(24, (parseInt(prev.duration, 10) || 1) + 1);
+                          return { ...prev, duration: String(n) };
+                        })}
+                        aria-label="Increase hours"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 )}
 
@@ -171,7 +230,7 @@ const Hero = () => {
                   <div className="form-group">
                     <label htmlFor="date">
                       <Calendar size={18} />
-                      {t('common.date')}
+                      {t('Date')}
                     </label>
                     <input
                       type="date"
@@ -187,7 +246,7 @@ const Hero = () => {
                   <div className="form-group">
                     <label htmlFor="time">
                       <Clock size={18} />
-                      {t('common.time')}
+                      {t('Time')}
                     </label>
                     <input
                       type="time"
@@ -204,18 +263,18 @@ const Hero = () => {
               {/* Live preview of selected locations */}
               <div className="location-preview" style={{margin: '10px 0', padding: '8px 12px', background: '#f7f7f7', borderRadius: 6}}>
                 <div style={{display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap'}}>
-                  <div><strong>{t('common.from')}:</strong>&nbsp;{formData.from ? formData.from : '—'}</div>
-                  {rideType === 'one-way' && (
-                    <div><strong>{t('common.to')}:</strong>&nbsp;{formData.to ? formData.to : '—'}</div>
+                  <div><strong>{t('From')}:</strong>&nbsp;{formData.from ? formData.from : '—'}</div>
+                  {(rideType === 'one-way' || rideType === 'by-hour') && formData.to && (
+                    <div><strong>{t('To')}:</strong>&nbsp;{formData.to}</div>
                   )}
                   {rideType === 'by-hour' && (
-                    <div><strong>{t('common.duration')}:</strong>&nbsp;{formData.duration} {t('common.hours')}</div>
+                    <div><strong>{t('duration')}:</strong>&nbsp;{formData.duration} {t('hours')}</div>
                   )}
                 </div>
               </div>
 
               <button type="submit" className="btn btn-primary search-btn">
-                {t('common.search')}
+                {t('Search')}
               </button>
             </form>
         </div>
